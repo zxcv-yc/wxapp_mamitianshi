@@ -1,0 +1,12 @@
+<cu-custom bgColor="bg-gradual-orange" isCustom="{{true}}">
+  <view slot="content">添加设备</view>
+  <view class="action" slot="right">
+    <view class="cu-load load-icon {{!isLoad?'loading':'over'}}"></view>
+  </view>
+</cu-custom>
+<view class="add_box">
+    <image class="add_img" src="../../images/jiance_shebei.png" mode="widthFix" bindtap="addEquipment"></image>
+    <view style="font-size: 34rpx;color: #333;margin-top: 30rpx;text-align: center;font-weight:500">设备检测中...</view>
+    <view class="_text">搜索设备可能需要一段时间</view>
+    <view class="_text" style="margin-top:5rpx;">并且需要您启动蓝牙或者红外线</view>
+</view>

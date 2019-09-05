@@ -1,0 +1,37 @@
+<!-- pages/index/index.wxml -->
+<cu-custom bgColor="bg-banner" >
+  <view slot="content">首页</view>
+</cu-custom>
+<swiper class="screen-swiper {{DotStyle?'square-dot':'round-dot'}}" indicator-dots="true" circular="true" autoplay="true" interval="5000" duration="500">
+    <swiper-item wx:for="{{swiperList}}" wx:key>
+        <image src="{{item.url}}" mode="aspectFill" wx:if="{{item.type=='image'}}"></image>
+        <video src="{{item.url}}" autoplay loop muted show-play-btn="{{false}}" controls="{{false}}" objectFit="cover" wx:if="{{item.type=='video'}}"></video>
+    </swiper-item>
+</swiper>
+<view class="index_menu shadow shadow-lg  bg-white" hover-class="none" hover-stop-propagation="false">
+    <view class="menu_item" style="color:#ff705c">
+        <image class="menu_image" src="../../images/menu0.png" mode="widthFix"></image>
+        <view class="menu_text">预约</view>
+    </view>
+    <view class="menu_item" style="color:#18a5f7">
+        <image class="menu_image" src="../../images/menu1.png" mode="widthFix"></image>
+        <view class="menu_text">库存</view>
+    </view>
+    <view class="menu_item" style="color:#ffd300">
+        <image class="menu_image" src="../../images/menu2.png" mode="widthFix"></image>
+        <view class="menu_text">更多</view>
+    </view>
+</view>
+<view class="cu-bar bg-white">
+    <view class="action">
+        <text class="cuIcon-titles text-green"></text>
+        <text class="text-xl text-bold">即将接种</text>
+    </view>
+    <view class=" _icon" hover-class="none" hover-stop-propagation="false">
+        <view class="iconfont icon-shijian" selectable="false" space="false" decode="false" style="font-size:40rpx;"></view>
+    </view>
+</view>
+<view class="list_box" hover-class="none" hover-stop-propagation="false">
+    <image class="list_img" src="../../images/zanwu_jiezhong.png" mode="widthFix"></image>
+    <view class="_text" >暂无即将接种的预约记录~</view>
+</view>

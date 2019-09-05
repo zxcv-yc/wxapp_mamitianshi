@@ -1,0 +1,30 @@
+<cu-custom bgColor="bg-gradual-green">
+  <view slot="content">发现</view>
+</cu-custom>
+<view class="green_block" hover-class="none" hover-stop-propagation="false"></view>
+<view class="find_menu shadow shadow-lg bg-white" style="top:16%;">
+  <view class="menu_item">
+    <image class="menu_image" src="../../images/find_menu0.png" mode="widthFix"></image>
+    <view class="menu_text">推荐</view>
+  </view>
+  <view class="menu_item">
+    <image class="menu_image" src="../../images/find_menu1.png" mode="widthFix"></image>
+    <view class="menu_text">接种咨询</view>
+  </view>
+  <view class="menu_item">
+    <image class="menu_image" src="../../images/find_menu2.png" mode="widthFix"></image>
+    <view class="menu_text">营养师咨询</view>
+  </view>
+  <view class="menu_item">
+    <image class="menu_image" src="../../images/find_menu3.png" mode="widthFix"></image>
+    <view class="menu_text">更多</view>
+  </view>
+</view>
+<view class="find_menu shadow shadow-lg bg-white" style="top:35%;">
+  <view class="cu-avatar xs radius">
+    <view class="cu-tag badge">1</view>
+    <text class="cuIcon-service text-gray"></text>
+  </view>
+  <view class="text_float">立即开始接种咨询</view>
+  <view class="cuIcon-right text-gray " style="float:right;line-height: 64rpx;font-size:40rpx;"></view>
+</view>
