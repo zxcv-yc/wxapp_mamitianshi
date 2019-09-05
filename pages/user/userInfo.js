@@ -1,11 +1,13 @@
-// pages/user/index.js
+// pages/user/userInfo.js
 Page({
 
     /**
      * 页面的初始数据
      */
     data: {
-
+        region: ['广东省', '广州市', '海珠区'],
+        eDate: '2018-12-25',
+        bDate: '2018-12-25',
     },
 
     /**
@@ -56,18 +58,35 @@ Page({
     onReachBottom: function() {
 
     },
-    /**
-     * 跳转到个人资料
-     */
-    jumpUserInfo: function() {
-        wx.navigateTo({
-            url: "userInfo"
-        })
-    },
+
     /**
      * 用户点击右上角分享
      */
     onShareAppMessage: function() {
 
-    }
+    },
+    /**
+     * 选择地址
+     */
+    RegionChange: function(e) {
+        this.setData({
+            region: e.detail.value
+        })
+    },
+    /**
+     * 选择日期(起始日期)
+     */
+    beginDateChange(e) {
+        this.setData({
+            bDate: e.detail.value
+        })
+    },
+    /**
+     * 选择日期(截止日期)
+     */
+    endDateChange(e) {
+        this.setData({
+            eDate: e.detail.value
+        })
+    },
 })

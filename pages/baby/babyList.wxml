@@ -1,0 +1,4 @@
+<cu-custom bgColor="bg-gradual-blue" isCustom="{{true}}">
+    <view slot="content">我的宝宝</view>
+    <view class="action" slot="right"></view>
+</cu-custom>
