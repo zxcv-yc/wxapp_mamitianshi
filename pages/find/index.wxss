@@ -62,3 +62,6 @@
     line-height: 64rpx;
     font-size: 30rpx;
 }
+.zhanwei{
+    height: 340rpx;
+}
