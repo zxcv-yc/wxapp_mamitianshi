@@ -2,7 +2,7 @@
     <view slot="content">个人资料</view>
     <view class="action" slot="right"></view>
 </cu-custom>
-<form  bindsubmit="submitDate">
+<form bindsubmit="submitDate">
     <view class="cu-form-group margin-top solid-bottom">
         <view class="title">姓名</view>
         <input placeholder="请输入姓名" name="us_name" value="{{us_name}}"></input>
@@ -47,8 +47,15 @@
     </view>
     <view class="cu-form-group margin-top solid-bottom">
         <view class="title">所在地区</view>
-        <picker mode="multiSelector" bindchange="RegionChange" value="{{indexArr}}"  name="sheng_shi_qu" range="{{p_Arr}}" >
-            <view class="picker">{{p_Arr[0][indexArr[0]]}}   {{p_Arr[1][indexArr[1]]}} {{p_Arr[2][indexArr[2]]}}</view>
+        <!-- <picker mode="multiSelector" bindchange="MultiChange" bindcolumnchange="MultiColumnChange" value="{{multiIndex}}" range="{{multiArray}}">
+      <view class="picker">
+        {{multiArray[0][multiIndex[0]]}}，{{multiArray[1][multiIndex[1]]}}，{{multiArray[2][multiIndex[2]]}}
+      </view>
+    </picker> -->
+        <picker mode="multiSelector" bindchange="RegionChange" bindcolumnchange="MultiColumnChange" value="{{indexArr}}" name="sheng_shi_qu" range="{{p_Arr}}">
+            <view class="picker">
+                {{p_Arr[0][indexArr[0]]}}   {{p_Arr[1][indexArr[1]]}} {{p_Arr[2][indexArr[2]]}}
+            </view>
         </picker>
     </view>
     <view class="cu-form-group align-start margin-top">
