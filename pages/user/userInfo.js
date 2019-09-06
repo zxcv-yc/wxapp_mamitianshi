@@ -10,13 +10,7 @@ Page({
         eDate: '2018-12-25',
         bDate: '2018-12-25',
         indexArr: [0, 0, 0],
-        multiIndex: [0, 0, 0],
         p_Arr: [],
-        multiArray: [
-            ['无脊柱动物', '脊柱动物'],
-            ['扁性动物', '线形动物', '环节动物', '软体动物', '节肢动物'],
-            ['猪肉绦虫', '吸血虫']
-        ],
         pObjArr: [{
             "id": 11,
             "name": "北京市"
@@ -120,21 +114,22 @@ Page({
             "id": 82,
             "name": "澳门特别行政区"
         }],
-        aa: ["请选择省份"],
-        bb: ["请选择省份"],
+        aa: [{
+            "id": 1,
+            "name": '请选择省份'
+        }],
+        bb: [{
+            "id": 1,
+            "name": '请选择省份'
+        }],
     },
 
     /**
      * 生命周期函数--监听页面加载
      */
-    onLoad: function (options) {
+    onLoad: function(options) {
         var abc = []
-
-        this.setData({
-            p_arr: this.splitGame(this.data.pArr, "name"),
-
-        })
-        abc.push(this.data.p_arr)
+        abc.push(this.data.pObjArr)
         abc.push(this.data.aa)
         abc.push(this.data.bb)
         this.setData({
@@ -143,73 +138,73 @@ Page({
         console.log(this.data.p_Arr)
         this.getUserInfo()
         let _this = this
-        // App._post_form_ice('region/getCity', {
-        //     pid: 0
-        // }, function (res) {
-        //     console.log(res)
-        //     _this.setData({
-        //         pArr: res.data
-        //     })
-        // })
+            // App._post_form_ice('region/getCity', {
+            //     pid: 0
+            // }, function (res) {
+            //     console.log(res)
+            //     _this.setData({
+            //         pArr: res.data
+            //     })
+            // })
 
     },
 
     /**
      * 生命周期函数--监听页面初次渲染完成
      */
-    onReady: function () {
+    onReady: function() {
 
     },
 
     /**
      * 生命周期函数--监听页面显示
      */
-    onShow: function () {
+    onShow: function() {
 
     },
 
     /**
      * 生命周期函数--监听页面隐藏
      */
-    onHide: function () {
+    onHide: function() {
 
     },
 
     /**
      * 生命周期函数--监听页面卸载
      */
-    onUnload: function () {
+    onUnload: function() {
 
     },
 
     /**
      * 页面相关事件处理函数--监听用户下拉动作
      */
-    onPullDownRefresh: function () {
+    onPullDownRefresh: function() {
 
     },
 
     /**
      * 页面上拉触底事件的处理函数
      */
-    onReachBottom: function () {
+    onReachBottom: function() {
 
     },
 
     /**
      * 用户点击右上角分享
      */
-    onShareAppMessage: function () {
+    onShareAppMessage: function() {
 
     },
     /**
      * picker监听列改变
      */
-    MultiColumnChange: function (e) {
+    MultiColumnChange: function(e) {
         let _this = this
         if (e.detail.column === 0) { //如果改变的是省份
             var _pid = _this.data.pObjArr[e.detail.value].id
-            console.log(pid)
+            console.log(_pid)
         }
         var poi = [{
             "id": 61,
@@ -238,9 +233,8 @@ Page({
         }]
         console.log(e)
         var zxc = this.data.p_Arr
-        var asd = this.splitGame(poi, 'name')
-        zxc[1] = asd
-        console.log(asd)
+
+        zxc[1] = poi
         this.setData({
             p_Arr: zxc
         })
@@ -248,9 +242,9 @@ Page({
     /**
      * 遍历二维数组，提取元素成为一维数组
      */
-    splitGame: function (arr, key) {
+    splitGame: function(arr, key) {
         var data = [];
-        arr.map(function (value, index) {
+        arr.map(function(value, index) {
             data.push(value[key]);
         });
         return data;
@@ -259,7 +253,8 @@ Page({
     /**
      * 选择地址
      */
-    RegionChange: function (e) {
+    MultiChange: function(e) {
+        console.log(e)
         this.setData({
             region: e.detail.value
         })
@@ -283,12 +278,12 @@ Page({
     /**
      * 获取用户详情
      */
-    getUserInfo: function () {
+    getUserInfo: function() {
         let _this = this
         App._post_form('user/getUserInfo', {
             access_token: App.access_token,
             user_token: App.getGlobalData('user_token')
-        }, function (result) {
+        }, function(result) {
             console.log(result)
             _this.setData({
                 us_name: result.data.us_name,
@@ -321,7 +316,7 @@ Page({
     /**
      * 提交数据到后台
      */
-    submitDate: function (e) {
+    submitDate: function(e) {
         console.log(this.data.pArr)
 
         return false;
@@ -337,7 +332,7 @@ Page({
     /**
      * 表单验证
      */
-    validation: function (v) {
+    validation: function(v) {
         if (v.us_name === '' || v.us_name.length < 2) {
             this.data.error = '请输入您的真实姓名';
             return false;

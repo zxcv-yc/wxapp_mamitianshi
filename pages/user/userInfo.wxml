@@ -52,9 +52,9 @@
         {{multiArray[0][multiIndex[0]]}}，{{multiArray[1][multiIndex[1]]}}，{{multiArray[2][multiIndex[2]]}}
       </view>
     </picker> -->
-        <picker mode="multiSelector" bindchange="RegionChange" bindcolumnchange="MultiColumnChange" value="{{indexArr}}" name="sheng_shi_qu" range="{{p_Arr}}">
+        <picker mode="multiSelector" bindchange="MultiChange" bindcolumnchange="MultiColumnChange" value="{{indexArr}}" name="sheng_shi_qu" range="{{p_Arr}}" range-key="name">
             <view class="picker">
-                {{p_Arr[0][indexArr[0]]}}   {{p_Arr[1][indexArr[1]]}} {{p_Arr[2][indexArr[2]]}}
+                {{p_Arr[0][indexArr[0]].name}}   {{p_Arr[1][indexArr[1]].name}} {{p_Arr[2][indexArr[2]].name}}
             </view>
         </picker>
     </view>
