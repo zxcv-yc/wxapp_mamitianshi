@@ -1,1 +1,82 @@
 /* pages/baby/babyList.wxss */
+
+.listBox {
+    width: 100%;
+}
+
+.listItem {
+    width: 88%;
+    margin: 0 auto;
+    margin-top: 20rpx;
+    border-radius: 15rpx;
+    overflow: hidden;
+}
+
+.listContent {
+    overflow: hidden;
+    position: relative;
+}
+
+.listContent:after {
+    content: '';
+    position: absolute;
+    left: 3%;
+    top: auto;
+    bottom: 0;
+    right: auto;
+    height: 1px;
+    width: 94%;
+    background-color: #f7f7f7;
+}
+
+.content_sex,
+.content_birth {
+    color: gray;
+    line-height: 120rpx;
+    font-size: 28rpx;
+    float: left;
+    text-align: center;
+}
+
+.content_sex {
+    width: 30%;
+}
+
+.content_birth {
+    width: 70%;
+}
+
+.listButton {
+    overflow: hidden;
+}
+
+.editBtn,
+.deleteBtn {
+    line-height: 60rpx;
+    font-size: 26rpx;
+    width: 30%;
+    margin: 20rpx 10%;
+    float: left;
+    text-align: center;
+    box-sizing: border-box;
+}
+
+.noBaby {
+    margin-top: 300rpx;
+}
+
+.img_box {
+    width: 40%;
+    margin: 0 auto;
+}
+
+.img_box image {
+    display: block;
+    width: 100%;
+}
+
+.addBtn {
+    position: fixed;
+    left: calc(50% - 300rpx);
+    bottom: 80rpx;
+}

@@ -4,9 +4,9 @@
 <view class="white_block" hover-class="none" hover-stop-propagation="false"></view>
 <view class="user_card" bind:tap="jumpUserInfo">
     <view class="user_img">
-        <image class="" src="../../images/user_img.jpeg" mode="widthFix" lazy-load="false" binderror="" bindload=""></image>
+         <open-data class="" type="userAvatarUrl"></open-data>
     </view>
-    <view class="user_name">妈咪天使</view>
+    <view class="user_name"><open-data type="userNickName"></open-data></view>
     <view class="user_img_w">
         <image class="" src="../../images/foot.png" mode="widthFix" lazy-load="false" binderror="" bindload=""></image>
     </view>
@@ -20,10 +20,10 @@
         </navigator>
     </view>
     <view class="cu-item arrow margin-top">
-        <navigator class="content" target="" url="index" hover-class="none" open-type="navigate">
+        <view class="content" bind:tap="getScanCode">
             <text class="cuIcon-scan menu_icon"></text>
             <text class="text-grey">扫一扫</text>
-        </navigator>
+        </view>
     </view>
     <view class="cu-item arrow margin-top">
         <navigator class="content" target="" url="index" hover-class="none" open-type="navigate">

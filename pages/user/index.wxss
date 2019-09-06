@@ -24,6 +24,7 @@ page {
     position: absolute;
     top: calc(50% - 65rpx);
     left: 50rpx;
+    overflow: hidden;
 }
 
 .user_name {
@@ -42,14 +43,15 @@ page {
     right: 120rpx;
 }
 
-.user_img_w image,
-.user_img image {
+.user_img_w image {
     width: 100%;
     display: block;
 }
 
-.user_img image {
+.head_portrait {
     border-radius: 999px;
+    width: 100%;
+    display: block;
 }
 
 .user_right {

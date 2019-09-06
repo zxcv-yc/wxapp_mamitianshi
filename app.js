@@ -23,7 +23,7 @@ App({
      */
     getSystemInformation: function() {
         let _this = this
-            // 获取系统状态栏信息
+        // 获取系统状态栏信息
         wx.getSystemInfo({
             success: function(e) {
                 console.log(e)
@@ -78,47 +78,106 @@ App({
         data.wxapp_id = App.siteInfo.uniacid;
 
         data.user_token = App.getGlobalData('user_token'),
-        wx.request({
-            url: App.api_root + url,
-            header: {
-                'content-type': 'application/x-www-form-urlencoded',
-                'accesstoken': App.access_token,
-            },
-            method: 'POST',
-            data: data,
-            success: function(res) {
-                if (res.statusCode !== 200 || typeof res.data !== 'object') {
-                    App.showError('网络请求出错');
-                    return false;
-                }
-                if (res.data.code === -1) {
-                    // 登录态失效, 重新登录
-                    App.doLogin(function() {
-                        App._post_form(url, data, success, fail);
-                    });
-                    return false;
-                } else if (res.data.code === 0) {
-                    App.showError(res.data.msg, function() {
+            wx.request({
+                url: App.api_root + url,
+                header: {
+                    'content-type': 'application/x-www-form-urlencoded',
+                    'accesstoken': App.access_token,
+                },
+                method: 'POST',
+                data: data,
+                success: function(res) {
+                    if (res.statusCode !== 200 || typeof res.data !== 'object') {
+                        App.showError('网络请求出错');
+                        return false;
+                    }
+                    if (res.data.code === -1) {
+                        // 登录态失效, 重新登录
+                        App.doLogin(function() {
+                            App._post_form(url, data, success, fail);
+                        });
+                        return false;
+                    } else if (res.data.code === 0) {
+                        App.showError(res.data.msg, function() {
+                            fail && fail(res);
+                        });
+                        return false;
+                    }
+                    success && success(res.data);
+                },
+                fail: function(res) {
+                    // console.log(res);
+                    App.showError(res.errMsg, function() {
                         fail && fail(res);
                     });
-                    return false;
+                },
+                complete: function(res) {
+                    wx.hideLoading();
+                    wx.hideNavigationBarLoading();
+                    complete && complete(res);
                 }
-                success && success(res.data);
-            },
-            fail: function(res) {
-                // console.log(res);
-                App.showError(res.errMsg, function() {
-                    fail && fail(res);
-                });
-            },
-            complete: function(res) {
-                wx.hideLoading();
-                wx.hideNavigationBarLoading();
-                complete && complete(res);
-            }
-        });
+            });
     },
+    /**
+     * get请求
+     */
+    _get: function(url, data, success, fail, complete, check_login) {
+        wx.showNavigationBarLoading();
+        let App = this;
+        // 构造请求参数
+        data = data || {};
+        data['wxapp_id'] = 10001;
 
+        // if (typeof check_login === 'undefined')
+        //   check_login = true;
+
+        // 构造get请求
+        let request = function() {
+            // data.token = wx.getStorageSync('token');
+            data.user_token = App.getGlobalData('user_token'),
+                wx.request({
+                    url: App.api_root + url,
+                    header: {
+                        'content-type': 'application/json',
+                        'access_token': App.access_token,
+                    },
+                    data: data,
+                    success: function(res) {
+                        // console.log(res);
+                        if (res.statusCode !== 200 || typeof res.data !== 'object') {
+                            App.showError('网络请求出错');
+                            return false;
+                        }
+                        if (res.data.code !== 200) { // add by fjw in 19.3.22: 如果接口返回状态码错误，就提示一下
+                            App.showError(res.data.msg);
+                            // return false;
+                        }
+                        if (res.data.code === -1) {
+                            // 登录态失效, 重新登录
+                            wx.hideNavigationBarLoading();
+                            App.doLogin();
+                        } else if (res.data.code === 0) {
+                            App.showError(res.data.msg);
+                            return false;
+                        } else {
+                            success && success(res.data);
+                        }
+                    },
+                    fail: function(res) {
+                        // console.log(res);
+                        App.showError(res.errMsg, function() {
+                            fail && fail(res);
+                        });
+                    },
+                    complete: function(res) {
+                        wx.hideNavigationBarLoading();
+                        complete && complete(res);
+                    },
+                });
+        };
+        // 判断是否需要验证登录
+        check_login ? App.doLogin(request) : request();
+    },
     /**
      * 执行用户登录
      */

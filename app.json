@@ -6,7 +6,8 @@
         "pages/user/index",
         "pages/equipment/addEquipment",
         "pages/user/userInfo",
-        "pages/baby/babyList"
+        "pages/baby/babyList",
+        "pages/baby/addBaby"
     ],
     "window": {
         "backgroundTextStyle": "light",

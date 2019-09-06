@@ -1,4 +1,35 @@
-<cu-custom bgColor="bg-gradual-blue" isCustom="{{true}}">
+<cu-custom bgColor="bg-gradual-green" isCustom="{{true}}">
     <view slot="content">我的宝宝</view>
     <view class="action" slot="right"></view>
 </cu-custom>
+<view class="listBox " hover-class="none" hover-stop-propagation="false" wx:if="{{aa}}">
+    <view class="listItem shadow-warp bg-white" hover-class="none" hover-stop-propagation="false">
+        <view class="listTitle solid-bottom">
+            <view class="cu-bar bg-white">
+                <view class="action">
+                    <text class="cuIcon-title text-green"></text>
+                    <text>姓名</text>
+                </view>
+            </view>
+        </view>
+        <view class="listContent">
+            <view class="content_sex">性别：男</view>
+            <view class="content_birth">生日：2018-12-31</view>
+        </view>
+        <view class="listButton">
+            <view class="editBtn  text-Abc cu-btn line-blue round">编辑</view>
+            <view class="deleteBtn text-Abc cu-btn line-red round">删除</view>
+        </view>
+    </view>
+</view>
+<view wx:else class="noBaby" hover-class="none" hover-stop-propagation="false">
+    <view class="img_box" hover-class="none" hover-stop-propagation="false">
+        <image class="" src="../../images/nobaby.png" mode="widthFix" lazy-load="false" binderror="" bindload=""></image>
+    </view>
+    <view class="_text" hover-class="none" hover-stop-propagation="false">您还没有添加宝宝信息，点击去添加～</view>
+    <navigator class="" target="" url="addBaby" hover-class="none" open-type="navigate">
+        <view class="addBtn shadow shadow-lg bg-green" hover-class="none" hover-stop-propagation="false">
+            添加
+        </view>
+    </navigator>
+</view>

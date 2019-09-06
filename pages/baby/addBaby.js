@@ -1,11 +1,11 @@
-// pages/baby/babyList.js
+// pages/baby/addBaby.js
 Page({
 
     /**
      * 页面的初始数据
      */
     data: {
-        aa: null
+        birthDate: '2017-01-01'
     },
 
     /**
@@ -62,5 +62,13 @@ Page({
      */
     onShareAppMessage: function() {
 
-    }
+    },
+    /**
+     * 选择出生日期
+     */
+    birthDateChange(e) {
+        this.setData({
+            birthDate: e.detail.value
+        })
+    },
 })

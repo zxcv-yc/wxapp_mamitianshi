@@ -7,9 +7,9 @@
         <view class="title">姓名</view>
         <input placeholder="请输入姓名"></input>
     </view>
-    <view class="cu-form-group margin-top solid-bottom">
+    <view class="cu-form-group margin-top solid-bottom sex_form">
         <view class="title">性别</view>
-        <switch class="switch-sex" checked></switch>
+        <switch class="switch-sex"  checked></switch>
     </view>
     <view class="cu-form-group margin-top solid-bottom">
         <view class="title">年龄</view>
@@ -45,7 +45,6 @@
             <view class="cu-tag bg-red biaoqian">截止日期</view>
         </view>
     </view>
-   
     <view class="cu-form-group margin-top solid-bottom">
         <view class="title">所在地区</view>
         <picker mode="region" bindchange="RegionChange" value="{{region}}" custom-item="{{customItem}}">
@@ -57,3 +56,6 @@
         <textarea maxlength="-1" disabled="{{modalName!=null}}" bindinput="textareaBInput" placeholder="多行文本输入框"></textarea>
     </view>
 </form>
+<view class="addBtn shadow shadow-lg bg-green" hover-class="none" hover-stop-propagation="false" id="queding">
+    添加
+</view>
