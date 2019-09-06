@@ -25,6 +25,7 @@ Page({
       return false;
     }
     wx.showLoading({ title: "正在登录", mask: true });
+    console.log(e);
     // 执行微信登录
     wx.login({
       success: function (res) {

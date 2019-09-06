@@ -2,22 +2,22 @@
     <view slot="content">个人资料</view>
     <view class="action" slot="right"></view>
 </cu-custom>
-<form action="">
+<form  bindsubmit="submitDate">
     <view class="cu-form-group margin-top solid-bottom">
         <view class="title">姓名</view>
-        <input placeholder="请输入姓名"></input>
+        <input placeholder="请输入姓名" name="us_name" value="{{us_name}}"></input>
     </view>
     <view class="cu-form-group margin-top solid-bottom sex_form">
         <view class="title">性别</view>
-        <switch class="switch-sex"  checked></switch>
+        <switch class="switch-sex" name="us_sex" value="{{us_sex}}" checked="{{sex_checked}}"></switch>
     </view>
     <view class="cu-form-group margin-top solid-bottom">
         <view class="title">年龄</view>
-        <input placeholder="请输入年龄" type="number"></input>
+        <input placeholder="请输入年龄" type="number" name="us_age" value="{{us_age}}" maxlength="2"></input>
     </view>
     <view class="cu-form-group margin-top solid-bottom">
         <view class="title">联系电话</view>
-        <input placeholder="请输入联系电话" type="number"></input>
+        <input placeholder="请输入联系电话" type="number" name="mobile" value="{{mobile}}" maxlength="11"></input>
         <view class="cu-capsule radius">
             <view class="cu-tag bg-blue" id="biaoqian">+86</view>
             <view class="cu-tag line-blue">中国大陆</view>
@@ -25,11 +25,11 @@
     </view>
     <view class="cu-form-group margin-top solid-bottom">
         <view class="title">身份证号</view>
-        <input placeholder="请输入身份证号" type="idcard"></input>
+        <input placeholder="请输入身份证号" type="idcard" name="id_card" value="{{id_card}}" maxlength="18"></input>
     </view>
     <view class="cu-form-group margin-top solid-bottom">
         <view class="title">证件期限</view>
-        <picker mode="date" value="{{bDate}}" start="2015-09-01" end="2020-09-01" bindchange="beginDateChange">
+        <picker mode="date" value="{{bDate}}" start="2015-09-01" end="2020-09-01" bindchange="beginDateChange" name="id_card_begintime">
             <view class="picker">{{bDate}}</view>
         </picker>
         <view class="cu-capsule radius">
@@ -38,7 +38,7 @@
     </view>
     <view class="cu-form-group margin-top solid-bottom">
         <view class="title">证件期限</view>
-        <picker mode="date" value="{{eDate}}" start="2015-09-01" end="2020-09-01" bindchange="endDateChange">
+        <picker mode="date" value="{{eDate}}" start="2015-09-01" end="2020-09-01" bindchange="endDateChange" name="id_card_endtime">
             <view class="picker">{{eDate}}</view>
         </picker>
         <view class="cu-capsule radius">
@@ -47,15 +47,15 @@
     </view>
     <view class="cu-form-group margin-top solid-bottom">
         <view class="title">所在地区</view>
-        <picker mode="region" bindchange="RegionChange" value="{{region}}" custom-item="{{customItem}}">
-            <view class="picker">{{region[0]}}，{{region[1]}}，{{region[2]}}</view>
+        <picker mode="multiSelector" bindchange="RegionChange" value="{{indexArr}}"  name="sheng_shi_qu" range="{{p_Arr}}" >
+            <view class="picker">{{p_Arr[0][indexArr[0]]}}   {{p_Arr[1][indexArr[1]]}} {{p_Arr[2][indexArr[2]]}}</view>
         </picker>
     </view>
     <view class="cu-form-group align-start margin-top">
         <view class="title">详细地址</view>
-        <textarea maxlength="-1" disabled="{{modalName!=null}}" bindinput="textareaBInput" placeholder="多行文本输入框"></textarea>
+        <textarea maxlength="-1" disabled="{{modalName!=null}}" bindinput="textareaBInput" placeholder="请输入详细地址" name="address_detail" value="{{address_detail}}"></textarea>
     </view>
+    <button class="addBtn shadow shadow-lg bg-green" hover-class="none" hover-stop-propagation="false" id="queding" form-type="submit">
+        添加
+    </button>
 </form>
-<view class="addBtn shadow shadow-lg bg-green" hover-class="none" hover-stop-propagation="false" id="queding">
-    添加
-</view>

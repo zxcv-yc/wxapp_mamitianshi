@@ -26,10 +26,9 @@ App({
         // 获取系统状态栏信息
         wx.getSystemInfo({
             success: function(e) {
-                console.log(e)
                 _this.globalData.StatusBar = e.statusBarHeight;
                 let custom = wx.getMenuButtonBoundingClientRect();
-                console.log(custom)
+                // console.log(custom)
                 _this.globalData.Custom = custom;
                 _this.globalData.CustomBar = custom.bottom + custom.top - e.statusBarHeight;
                 // console.log(this.globalData)
@@ -57,7 +56,7 @@ App({
         let api_key = 'l2V|gfZp{8`;jzR~6Y1_FWlzdf';
         const md5_Obj = require('./utils/hex_md5.js');
         this.access_token = md5_Obj.hexMD5('MamiTianshi' + this.year + this.month + this.day + api_key);
-        console.log(this.access_token)
+        // console.log(this.access_token)
     },
     /**
      * 设置api地址
@@ -67,7 +66,6 @@ App({
         this.api_root = this.siteInfo.siteroot + 'api.php/';
         this.upload_root = this.siteInfo.uploadroot + 'api.php/';
         this.path_root = this.siteInfo.uploadroot;
-
     },
     /**
      * post提交
@@ -98,6 +96,48 @@ App({
                         });
                         return false;
                     } else if (res.data.code === 0) {
+                        App.showError(res.data.msg, function() {
+                            fail && fail(res);
+                        });
+                        return false;
+                    }
+                    success && success(res.data);
+                },
+                fail: function(res) {
+                    // console.log(res);
+                    App.showError(res.errMsg, function() {
+                        fail && fail(res);
+                    });
+                },
+                complete: function(res) {
+                    wx.hideLoading();
+                    wx.hideNavigationBarLoading();
+                    complete && complete(res);
+                }
+            });
+    },
+    /**
+     * 冰箱post提交
+     */
+    _post_form_ice: function(url, data, success, fail, complete) {
+        wx.showNavigationBarLoading();
+        let App = this;
+        console.log(App.access_token)
+            wx.request({
+                url: "http://192.168.0.7:8088/api.php/" + url,
+                header: {
+                    'content-type': 'application/x-www-form-urlencoded',
+                    'accesstoken': App.access_token,
+                },
+                
+                method: 'POST',
+                data: data,
+                success: function(res) {
+                    if (res.statusCode !== 200 || typeof res.data !== 'object') {
+                        App.showError('网络请求出错');
+                        return false;
+                    }
+                   if (res.data.code === 0) {
                         App.showError(res.data.msg, function() {
                             fail && fail(res);
                         });
