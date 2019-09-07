@@ -48,7 +48,9 @@ Page({
     /**
      * 生命周期函数--监听页面初次渲染完成
      */
-    onReady: function () {},
+    onReady: function () {
+
+    },
 
     /**
      * 生命周期函数--监听页面显示
@@ -160,7 +162,9 @@ Page({
             usSheng: this.data.multiArray[0][e.detail.value[0]].id,
             usShi: this.data.multiArray[1][e.detail.value[1]].id,
             usQu: this.data.multiArray[2][e.detail.value[2]].id,
+            ssqIndex: e.detail.value
         })
+        console.log(_this.data.ssqIndex)
         App._post_form("region/getCity", {
             pid: this.data.usQu
         }, function (res) {
@@ -195,25 +199,24 @@ Page({
             eDate: e.detail.value
         })
     },
-    fff: function (arr, id) {
-        for (var i = 0; i < arr.length; i++) {
-            if (arr[i].id === id) {
-                return i
-            }
-        }
-    },
     /**
      * 获取省份数据
      */
-    getProvince: function (pid) {
+    getProvince: function () {
         let _this = this
         App._post_form("region/getCity", {
-            pid: pid
+            pid: 0
         }, function (res) {
             console.log(res)
             // return false
-            return res.data.province
-
+            var abc = []
+            abc.push(res.data.province)
+            abc.push(res.data.city)
+            abc.push(res.data.district)
+            console.log(abc)
+            _this.setData({
+                multiArray: abc
+            })
         })
     },
     /**
@@ -247,41 +250,7 @@ Page({
                     eDate: '请选择'
                 })
             }
-            if (result.data.sheng_shi_qu == null) {
-                _this.setData({
-                    region: ['请选择']
-                })
-            }
-            var abc = []
-            var zeroData = _this.getProvince(0)
-            if (result.data.us_sheng === '' || result.data.us_sheng === null || result.data.us_sheng === 0) {
-                abc.push(zeroData.province)
-                abc.push(zeroData.city)
-                abc.push(zeroData.district)
-                console.log(abc)
-                _this.setData({
-                    multiArray: abc
-                })
-            } else {
-                var index_arr
-                // var shengIndex = _this.fff(zeroData, result.data.us_sheng) //37
-                // var shiIndex = _this.fff(_this.getProvince(result.data.us_sheng), result.data.us_shi) //37
-                // var quIndex = _this.fff(_this.getProvince(result.data.us_shi), result.data.us_qu)
-                //var shengArr = zeroData.province
-                console.log(_this.getProvince(0))
-                var shiArr = _this.getProvince(result.data.us_sheng)
-                console.log(shiArr)
-                return false
-                var zhen_index = _this.fff(_this.getProvince(result.data.us_qu), result.data.us_zhen)
-                index_arr.push(_this.fff(shengArr, result.data.us_sheng))
-                index_arr.push(_this.fff(_this.getProvince(result.data.us_sheng), result.data.us_shi))
-                index_arr.push(_this.fff(_this.getProvince(result.data.us_shi), result.data.us_qu))
-                _this.setData({
-                    indexArr: index_arr,
-                    zhenIndex:zhen_index,
-                })
-            }
-
+            if(res.data.)
         })
     },
     /**
@@ -298,11 +267,15 @@ Page({
         values.us_qu = _this.data.usQu
         values.sheng_shi_qu = _this.data.multiArray[0][_this.data.indexArr[0]].name + '/' + _this.data.multiArray[1][_this.data.indexArr[1]].name + '/' + _this.data.multiArray[2][_this.data.indexArr[2]].name + '/' + _this.data.zhenArray[_this.data.zhenIndex].name
         values.us_zhen = _this.data.zhenArray[_this.data.zhenIndex].id
+       
+
         console.log(values)
         if (!_this.validation(values)) {
             App.showError(_this.data.error);
             return false
         }
+        _this.data.ssqIndex.push(parseInt(_this.data.zhenIndex))
+        values.ssq_index = _this.data.ssqIndex
         App._post_form("user/editUserInfo", values, function (res) {
             console.log(res)
         })

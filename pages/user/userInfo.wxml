@@ -53,7 +53,7 @@
             </view>
         </picker>
     </view>
-    <view class="cu-form-group margin-top solid-bottom">
+    <view class="cu-form-group margin-top solid-bottom"   >
         <view class="title">街道/乡镇</view>
         <picker mode="selector" bindchange="zhenChange" value="{{zhenIndex}}" range="{{zhenArray}}" range-key="name">
             <view class="picker">
@@ -65,7 +65,7 @@
         <view class="title">详细地址</view>
         <textarea maxlength="-1" disabled="{{modalName!=null}}" bindinput="textareaBInput" placeholder="请输入详细地址" name="address_detail" value="{{address_detail}}"></textarea>
     </view>
-    <button class="addBtn shadow shadow-lg bg-green" hover-class="none" hover-stop-propagation="false" id="queding" form-type="submit">
-        添加
+    <button class="addBtn shadow shadow-lg bg-green" hover-class="none" hover-stop-propagation="false"   id="queding" form-type="submit" >
+        确认提交
     </button>
 </form>
