@@ -47,14 +47,17 @@
     </view>
     <view class="cu-form-group margin-top solid-bottom">
         <view class="title">所在地区</view>
-        <!-- <picker mode="multiSelector" bindchange="MultiChange" bindcolumnchange="MultiColumnChange" value="{{multiIndex}}" range="{{multiArray}}">
-      <view class="picker">
-        {{multiArray[0][multiIndex[0]]}}，{{multiArray[1][multiIndex[1]]}}，{{multiArray[2][multiIndex[2]]}}
-      </view>
-    </picker> -->
-        <picker mode="multiSelector" bindchange="MultiChange" bindcolumnchange="MultiColumnChange" value="{{indexArr}}" name="sheng_shi_qu" range="{{p_Arr}}" range-key="name">
+        <picker mode="multiSelector" bindchange="MultiChange" bindcolumnchange="MultiColumnChange" value="{{indexArr}}"range="{{multiArray}}"  range-key="name">
             <view class="picker">
-                {{p_Arr[0][indexArr[0]].name}}   {{p_Arr[1][indexArr[1]].name}} {{p_Arr[2][indexArr[2]].name}}
+                {{multiArray[0][indexArr[0]].name}}   {{multiArray[1][indexArr[1]].name}} {{multiArray[2][indexArr[2]].name}}
+            </view>
+        </picker>
+    </view>
+    <view class="cu-form-group margin-top solid-bottom">
+        <view class="title">街道/乡镇</view>
+        <picker mode="selector" bindchange="zhenChange" value="{{zhenIndex}}" range="{{zhenArray}}" range-key="name">
+            <view class="picker">
+                {{zhenArray[zhenIndex].name}} 
             </view>
         </picker>
     </view>

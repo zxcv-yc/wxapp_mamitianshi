@@ -10,253 +10,173 @@ Page({
         eDate: '2018-12-25',
         bDate: '2018-12-25',
         indexArr: [0, 0, 0],
-        p_Arr: [],
-        pObjArr: [{
-            "id": 11,
-            "name": "北京市"
-        }, {
-            "id": 12,
-            "name": "天津市"
-        }, {
-            "id": 13,
-            "name": "河北省"
-        }, {
-            "id": 14,
-            "name": "山西省"
-        }, {
-            "id": 15,
-            "name": "内蒙古自治区"
-        }, {
-            "id": 21,
-            "name": "辽宁省"
-        }, {
-            "id": 22,
-            "name": "吉林省"
-        }, {
-            "id": 23,
-            "name": "黑龙江省"
-        }, {
-            "id": 31,
-            "name": "上海市"
-        }, {
-            "id": 32,
-            "name": "江苏省"
-        }, {
-            "id": 33,
-            "name": "浙江省"
-        }, {
-            "id": 34,
-            "name": "安徽省"
-        }, {
-            "id": 35,
-            "name": "福建省"
-        }, {
-            "id": 36,
-            "name": "江西省"
-        }, {
-            "id": 37,
-            "name": "山东省"
-        }, {
-            "id": 41,
-            "name": "河南省"
-        }, {
-            "id": 42,
-            "name": "湖北省"
-        }, {
-            "id": 43,
-            "name": "湖南省"
-        }, {
-            "id": 44,
-            "name": "广东省"
-        }, {
-            "id": 45,
-            "name": "广西壮族自治区"
-        }, {
-            "id": 46,
-            "name": "海南省"
-        }, {
-            "id": 50,
-            "name": "重庆市"
-        }, {
-            "id": 51,
-            "name": "四川省"
-        }, {
-            "id": 52,
-            "name": "贵州省"
-        }, {
-            "id": 53,
-            "name": "云南省"
-        }, {
-            "id": 54,
-            "name": "西藏自治区"
-        }, {
-            "id": 61,
-            "name": "陕西省"
-        }, {
-            "id": 62,
-            "name": "甘肃省"
-        }, {
-            "id": 63,
-            "name": "青海省"
-        }, {
-            "id": 64,
-            "name": "宁夏回族自治区"
-        }, {
-            "id": 65,
-            "name": "新疆维吾尔自治区"
-        }, {
-            "id": 71,
-            "name": "台湾省"
-        }, {
-            "id": 81,
-            "name": "香港特别行政区"
-        }, {
-            "id": 82,
-            "name": "澳门特别行政区"
-        }],
+        multiArray: [],
+
         aa: [{
-            "id": 1,
-            "name": '请选择省份'
+            "id": 1101,
+            "name": '北京市'
         }],
-        bb: [{
-            "id": 1,
-            "name": '请选择省份'
+        pIndex: 0,
+        usSheng: null, //需要向后台发送的省市区ID
+        usShi: null,
+        usQu: null,
+        zhenArray: [{
+            "name": "请先选择省市区"
         }],
+        zhenIndex: 0, //乡镇选择器的索引
     },
 
     /**
      * 生命周期函数--监听页面加载
      */
-    onLoad: function(options) {
-        var abc = []
-        abc.push(this.data.pObjArr)
-        abc.push(this.data.aa)
-        abc.push(this.data.bb)
-        this.setData({
-            p_Arr: abc
-        })
-        console.log(this.data.p_Arr)
+    onLoad: function (options) {
+        this.getProvince()
+
         this.getUserInfo()
         let _this = this
-            // App._post_form_ice('region/getCity', {
-            //     pid: 0
-            // }, function (res) {
-            //     console.log(res)
-            //     _this.setData({
-            //         pArr: res.data
-            //     })
-            // })
+        // App._post_form_ice('region/getCity', {
+        //     pid: 0
+        // }, function (res) {
+        //     console.log(res)
+        //     _this.setData({
+        //         pArr: res.data
+        //     })
+        // })
 
     },
 
     /**
      * 生命周期函数--监听页面初次渲染完成
      */
-    onReady: function() {
-
-    },
+    onReady: function () {},
 
     /**
      * 生命周期函数--监听页面显示
      */
-    onShow: function() {
+    onShow: function () {
 
     },
 
     /**
      * 生命周期函数--监听页面隐藏
      */
-    onHide: function() {
+    onHide: function () {
 
     },
 
     /**
      * 生命周期函数--监听页面卸载
      */
-    onUnload: function() {
+    onUnload: function () {
 
     },
 
     /**
      * 页面相关事件处理函数--监听用户下拉动作
      */
-    onPullDownRefresh: function() {
+    onPullDownRefresh: function () {
 
     },
 
     /**
      * 页面上拉触底事件的处理函数
      */
-    onReachBottom: function() {
+    onReachBottom: function () {
 
     },
 
     /**
      * 用户点击右上角分享
      */
-    onShareAppMessage: function() {
+    onShareAppMessage: function () {
 
     },
     /**
      * picker监听列改变
      */
-    MultiColumnChange: function(e) {
+    MultiColumnChange: function (e) {
         let _this = this
         if (e.detail.column === 0) { //如果改变的是省份
-            var _pid = _this.data.pObjArr[e.detail.value].id
-            console.log(_pid)
-        }
-        var poi = [{
-            "id": 61,
-            "name": "陕西省"
-        }, {
-            "id": 62,
-            "name": "甘肃省"
-        }, {
-            "id": 63,
-            "name": "青海省"
-        }, {
-            "id": 64,
-            "name": "宁夏回族自治区"
-        }, {
-            "id": 65,
-            "name": "新疆维吾尔自治区"
-        }, {
-            "id": 71,
-            "name": "台湾省"
-        }, {
-            "id": 81,
-            "name": "香港特别行政区"
-        }, {
-            "id": 82,
-            "name": "澳门特别行政区"
-        }]
-        console.log(e)
-        var zxc = this.data.p_Arr
+            var _pid = _this.data.multiArray[0][e.detail.value].id
+            _this.data.pIndex = e.detail.value
+            console.log(_this.data.pIndex)
+            App._post_form("region/getCity", {
+                pid: _pid
+            }, function (res) {
+                var zxc = _this.data.multiArray
+                zxc[1] = res.data.city
+                zxc[2] = res.data.district
+                _this.setData({
+                    multiArray: zxc,
+                })
 
-        zxc[1] = poi
-        this.setData({
-            p_Arr: zxc
-        })
+            })
+            _this.setData({
+                indexArr: [_this.data.pIndex, 0, 0]
+            })
+            console.log(_this.data.indexArr)
+        }
+        if (e.detail.column === 1) { //如果改变的是市
+            var _pid = _this.data.multiArray[1][e.detail.value].id
+            App._post_form("region/getCity", {
+                pid: _pid
+            }, function (res) {
+                // return false;
+                var zxc = _this.data.multiArray
+                zxc[2] = res.data
+                _this.setData({
+                    multiArray: zxc,
+                })
+            })
+            _this.setData({
+                indexArr: [_this.data.pIndex, e.detail.value, 0]
+            })
+            console.log(_this.data.pIndex)
+
+        }
+
+        console.log(e)
+
     },
     /**
      * 遍历二维数组，提取元素成为一维数组
      */
-    splitGame: function(arr, key) {
+    splitGame: function (arr, key) {
         var data = [];
-        arr.map(function(value, index) {
+        arr.map(function (value, index) {
             data.push(value[key]);
         });
         return data;
     },
 
     /**
-     * 选择地址
+     * 选择地址(点击确定触发)
      */
-    MultiChange: function(e) {
+    MultiChange: function (e) {
+        let _this = this
         console.log(e)
         this.setData({
-            region: e.detail.value
+            indexArr: e.detail.value,
+            usSheng: this.data.multiArray[0][e.detail.value[0]].id,
+            usShi: this.data.multiArray[1][e.detail.value[1]].id,
+            usQu: this.data.multiArray[2][e.detail.value[2]].id,
+        })
+        App._post_form("region/getCity", {
+            pid: this.data.usQu
+        }, function (res) {
+            _this.setData({
+                zhenArray: res.data
+            })
+        })
+
+    },
+    /**
+     * 选择乡镇/街道
+     */
+    zhenChange: function (e) {
+        console.log(e)
+        this.setData({
+            zhenIndex: e.detail.value
         })
     },
     /**
@@ -275,15 +195,36 @@ Page({
             eDate: e.detail.value
         })
     },
+    fff: function (arr, id) {
+        for (var i = 0; i < arr.length; i++) {
+            if (arr[i].id === id) {
+                return i
+            }
+        }
+    },
+    /**
+     * 获取省份数据
+     */
+    getProvince: function (pid) {
+        let _this = this
+        App._post_form("region/getCity", {
+            pid: pid
+        }, function (res) {
+            console.log(res)
+            // return false
+            return res.data.province
+
+        })
+    },
     /**
      * 获取用户详情
      */
-    getUserInfo: function() {
+    getUserInfo: function () {
         let _this = this
         App._post_form('user/getUserInfo', {
             access_token: App.access_token,
             user_token: App.getGlobalData('user_token')
-        }, function(result) {
+        }, function (result) {
             console.log(result)
             _this.setData({
                 us_name: result.data.us_name,
@@ -311,28 +252,65 @@ Page({
                     region: ['请选择']
                 })
             }
+            var abc = []
+            var zeroData = _this.getProvince(0)
+            if (result.data.us_sheng === '' || result.data.us_sheng === null || result.data.us_sheng === 0) {
+                abc.push(zeroData.province)
+                abc.push(zeroData.city)
+                abc.push(zeroData.district)
+                console.log(abc)
+                _this.setData({
+                    multiArray: abc
+                })
+            } else {
+                var index_arr
+                // var shengIndex = _this.fff(zeroData, result.data.us_sheng) //37
+                // var shiIndex = _this.fff(_this.getProvince(result.data.us_sheng), result.data.us_shi) //37
+                // var quIndex = _this.fff(_this.getProvince(result.data.us_shi), result.data.us_qu)
+                //var shengArr = zeroData.province
+                console.log(_this.getProvince(0))
+                var shiArr = _this.getProvince(result.data.us_sheng)
+                console.log(shiArr)
+                return false
+                var zhen_index = _this.fff(_this.getProvince(result.data.us_qu), result.data.us_zhen)
+                index_arr.push(_this.fff(shengArr, result.data.us_sheng))
+                index_arr.push(_this.fff(_this.getProvince(result.data.us_sheng), result.data.us_shi))
+                index_arr.push(_this.fff(_this.getProvince(result.data.us_shi), result.data.us_qu))
+                _this.setData({
+                    indexArr: index_arr,
+                    zhenIndex:zhen_index,
+                })
+            }
+
         })
     },
     /**
      * 提交数据到后台
      */
-    submitDate: function(e) {
-        console.log(this.data.pArr)
-
-        return false;
+    submitDate: function (e) {
+        let _this = this
+        console.log(e.detail.value)
         var values = e.detail.value
         values.us_age = parseInt(values.us_age)
         values.us_sex ? values.us_sex = 1 : values.us_sex = 2
+        values.us_sheng = _this.data.usSheng
+        values.us_shi = _this.data.usShi
+        values.us_qu = _this.data.usQu
+        values.sheng_shi_qu = _this.data.multiArray[0][_this.data.indexArr[0]].name + '/' + _this.data.multiArray[1][_this.data.indexArr[1]].name + '/' + _this.data.multiArray[2][_this.data.indexArr[2]].name + '/' + _this.data.zhenArray[_this.data.zhenIndex].name
+        values.us_zhen = _this.data.zhenArray[_this.data.zhenIndex].id
         console.log(values)
         if (!_this.validation(values)) {
             App.showError(_this.data.error);
             return false
         }
+        App._post_form("user/editUserInfo", values, function (res) {
+            console.log(res)
+        })
     },
     /**
      * 表单验证
      */
-    validation: function(v) {
+    validation: function (v) {
         if (v.us_name === '' || v.us_name.length < 2) {
             this.data.error = '请输入您的真实姓名';
             return false;
@@ -349,6 +327,10 @@ Page({
         }
         if (v.address_detail === '') {
             this.data.error = '详细地址不能为空';
+            return false;
+        }
+        if (v.us_sheng === '' || v.us_sheng === null || v.us_shi === '' || v.us_shi === null || v.us_qu === '' || v.us_qu === null) {
+            this.data.error = '请选择所在地区';
             return false;
         }
         if (v.us_age === '' || v.us_age === NaN) {
