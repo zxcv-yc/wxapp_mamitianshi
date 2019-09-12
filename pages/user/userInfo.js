@@ -1,4 +1,6 @@
 const App = getApp();
+const $ = require('../../utils/promisify')
+
 
 Page({
 
@@ -24,25 +26,19 @@ Page({
             "name": "请先选择省市区"
         }],
         zhenIndex: 0, //乡镇选择器的索引
+
+        showLoad: 1,
+
+        ssq: []
     },
 
     /**
      * 生命周期函数--监听页面加载
      */
     onLoad: function (options) {
-        this.getProvince()
-
         this.getUserInfo()
         let _this = this
-        // App._post_form_ice('region/getCity', {
-        //     pid: 0
-        // }, function (res) {
-        //     console.log(res)
-        //     _this.setData({
-        //         pArr: res.data
-        //     })
-        // })
-
+        // this.getProvince()
     },
 
     /**
@@ -164,7 +160,7 @@ Page({
             usQu: this.data.multiArray[2][e.detail.value[2]].id,
             ssqIndex: e.detail.value
         })
-        console.log(_this.data.ssqIndex)
+        console.log(_this.data.indexArr)
         App._post_form("region/getCity", {
             pid: this.data.usQu
         }, function (res) {
@@ -180,8 +176,10 @@ Page({
     zhenChange: function (e) {
         console.log(e)
         this.setData({
-            zhenIndex: e.detail.value
+            zhenIndex: e.detail.value,
+            us_zhen: this.data.zhenArray[e.detail.value].id
         })
+        console.log(this.data.us_zhen)
     },
     /**
      * 选择日期(起始日期)
@@ -208,14 +206,14 @@ Page({
             pid: 0
         }, function (res) {
             console.log(res)
-            // return false
             var abc = []
             abc.push(res.data.province)
             abc.push(res.data.city)
             abc.push(res.data.district)
             console.log(abc)
             _this.setData({
-                multiArray: abc
+                multiArray: abc,
+                showLoad: false
             })
         })
     },
@@ -229,6 +227,11 @@ Page({
             user_token: App.getGlobalData('user_token')
         }, function (result) {
             console.log(result)
+            var ssqIndex = result.data.ssq_index.split(",").map(Number)
+            var zhen_index = ssqIndex[3]
+            ssqIndex.splice(-1, 1)
+
+
             _this.setData({
                 us_name: result.data.us_name,
                 sex_checked: result.data.us_sex === 1 ? true : false,
@@ -239,7 +242,14 @@ Page({
                 eDate: result.data.id_card_endtime,
                 sheng_shi_qu: result.data.sheng_shi_qu,
                 address_detail: result.data.address_detail,
+                indexArr: ssqIndex,
+                zhenIndex: zhen_index,
+                usSheng: result.data.us_sheng,
+                usShi: result.data.us_shi,
+                usQu: result.data.us_qu,
+                usZhen: result.data.us_zhen,
             })
+
             if (result.data.id_card_begintime == null) {
                 _this.setData({
                     bDate: '请选择'
@@ -250,9 +260,45 @@ Page({
                     eDate: '请选择'
                 })
             }
-            if(res.data.)
+            if (result.data.us_sheng === '' || result.data.us_sheng === 0) {
+                _this.getProvince()
+            } else {
+                var ssq = []
+                App._post_form("region/getCity", {
+                    pid: 0
+                }, function (res) {
+                    ssq.push(res.data.province)
+                    App._post_form("region/getCity", {
+                        pid: result.data.us_sheng
+                    }, function (res) {
+                        ssq.push(res.data.city)
+
+                        App._post_form("region/getCity", {
+                            pid: result.data.us_shi
+                        }, function (res) {
+
+                            ssq.push(res.data)
+                            _this.setData({
+                                multiArray: ssq,
+                                // indexArr:ssqIndex.splice(-1,1)
+                            })
+                            App._post_form("region/getCity", {
+                                pid: result.data.us_qu
+                            }, function (res) {
+
+                                _this.setData({
+                                    zhenArray: res.data,
+                                    showLoad: false
+                                })
+
+                            })
+                        })
+                    })
+                })
+            }
         })
     },
+
     /**
      * 提交数据到后台
      */
@@ -266,20 +312,36 @@ Page({
         values.us_shi = _this.data.usShi
         values.us_qu = _this.data.usQu
         values.sheng_shi_qu = _this.data.multiArray[0][_this.data.indexArr[0]].name + '/' + _this.data.multiArray[1][_this.data.indexArr[1]].name + '/' + _this.data.multiArray[2][_this.data.indexArr[2]].name + '/' + _this.data.zhenArray[_this.data.zhenIndex].name
+        console.log(_this.data.multiArray)
+        console.log(_this.data.indexArr)
         values.us_zhen = _this.data.zhenArray[_this.data.zhenIndex].id
-       
 
-        console.log(values)
+
         if (!_this.validation(values)) {
             App.showError(_this.data.error);
             return false
         }
-        _this.data.ssqIndex.push(parseInt(_this.data.zhenIndex))
-        values.ssq_index = _this.data.ssqIndex
+        // _this.data.ssqIndex.push(parseInt(_this.data.zhenIndex))
+        values.ssq_index.push(parseInt(_this.data.zhenIndex))
+
+        console.log(values)
+        // return false
         App._post_form("user/editUserInfo", values, function (res) {
-            console.log(res)
+            if (res.code === 200) {
+                wx.showToast({
+                    title: '保存成功',
+                    icon: 'success',
+                    duration: 1500,
+                    mask: false,
+                });
+                // wx.navigateBack({
+                //     delta: 1
+                // });
+
+            }
         })
     },
+
     /**
      * 表单验证
      */

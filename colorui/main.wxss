@@ -1163,8 +1163,11 @@ button.icon.lg {
 }
 
 .cu-load.load-modal image {
-    width: 70rpx;
-    height: 70rpx;
+    /* width: 70rpx;
+    height: 70rpx; YC*/
+    width:120rpx;
+    height: 120rpx;
+
 }
 
 .cu-load.load-modal::after {

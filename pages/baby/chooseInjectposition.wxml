@@ -1,0 +1,38 @@
+<cu-custom bgColor="bg-gradual-green" isCustom="{{true}}">
+    <view slot="content">选择接种点</view>
+    <view class="action" slot="right"></view>
+</cu-custom>
+<form bindsubmit="submitData">
+    <radio-group class="block" bindchange="radioFill">
+        <view class="item_box shadow-warp bg-white margin-top" wx:for="{{list}}" wx:for-item="item" wx:for-index="idx" wx:key>
+            <view class="cu-bar bg-white solid-bottom">
+                <view class='action'>
+                    <text class='cuIcon-title text-blue '></text>
+                    名称：{{item.name}}
+                </view>
+                <view class='action'>
+                    <radio value="{{item.id+','+item.name}}" name="id"></radio>   
+                </view>
+            </view>
+            <view class="_info bg-white">
+                <view class="dizhi padding-sm">
+                    <text class="cuIcon-locationfill text-grey"></text>
+                    地址：{{item.address}}
+                </view>
+                <view class="dizhi padding-sm">
+                    <text class="cuIcon-newshotfill text-blue"></text>
+                    业务范围：{{item.business}}
+                </view>
+                <view class="dizhi padding-sm">
+                    <text class="cuIcon-medalfill text-yellow"></text>
+                    资质证书编号：{{idx}}
+                </view>
+                <view class="dizhi padding-sm">
+                    <text class="cuIcon-servicefill text-olive"></text>
+                    电话：{{item.phone}}
+                </view>
+            </view>
+        </view>
+    </radio-group>
+    <button class="addBtn" form-type="submit">确定</button>
+</form>

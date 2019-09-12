@@ -1,4 +1,5 @@
 //app.js
+
 App({
     globalData: {
         user_id: 0,
@@ -122,9 +123,8 @@ App({
     _post_form_ice: function(url, data, success, fail, complete) {
         wx.showNavigationBarLoading();
         let App = this;
-        console.log(App.access_token)
             wx.request({
-                url: "http://192.168.0.7:8088/api.php/" + url,
+                url: "http://192.168.0.99:8088/api.php/" + url,
                 header: {
                     'content-type': 'application/x-www-form-urlencoded',
                     'accesstoken': App.access_token,
