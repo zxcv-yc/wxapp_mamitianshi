@@ -1,6 +1,6 @@
 <!-- pages/index/index.wxml -->
-<cu-custom bgColor="bg-banner" >
-  <view slot="content">首页</view>
+<cu-custom bgColor="bg-banner">
+    <view slot="content">首页</view>
 </cu-custom>
 <swiper class="screen-swiper {{DotStyle?'square-dot':'round-dot'}}" indicator-dots="true" circular="true" autoplay="true" interval="5000" duration="500">
     <swiper-item wx:for="{{swiperList}}" wx:key>
@@ -32,6 +32,9 @@
     </view>
 </view>
 <view class="list_box" hover-class="none" hover-stop-propagation="false">
-    <image class="list_img" src="../../images/zanwu_jiezhong.png" mode="widthFix"></image>
-    <view class="_text" >暂无即将接种的预约记录~</view>
+    <view class="list_item" wx:if="{{yu_list}}" hover-class="none" hover-stop-propagation="false"></view>
+    <view class="zanwu" wx:else hover-class="none" hover-stop-propagation="false">
+        <image class="list_img" src="../../images/zanwu_jiezhong.png" mode="widthFix"></image>
+        <view class="_text">暂无即将接种的预约记录~</view>
+    </view>
 </view>

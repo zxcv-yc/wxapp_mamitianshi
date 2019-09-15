@@ -1,5 +1,4 @@
 const App = getApp();
-const $ = require('../../utils/promisify')
 
 
 Page({
@@ -35,64 +34,64 @@ Page({
     /**
      * 生命周期函数--监听页面加载
      */
-    onLoad: function (options) {
+    onLoad: function(options) {
         this.getUserInfo()
         let _this = this
-        // this.getProvince()
+            // this.getProvince()
     },
 
     /**
      * 生命周期函数--监听页面初次渲染完成
      */
-    onReady: function () {
+    onReady: function() {
 
     },
 
     /**
      * 生命周期函数--监听页面显示
      */
-    onShow: function () {
+    onShow: function() {
 
     },
 
     /**
      * 生命周期函数--监听页面隐藏
      */
-    onHide: function () {
+    onHide: function() {
 
     },
 
     /**
      * 生命周期函数--监听页面卸载
      */
-    onUnload: function () {
+    onUnload: function() {
 
     },
 
     /**
      * 页面相关事件处理函数--监听用户下拉动作
      */
-    onPullDownRefresh: function () {
+    onPullDownRefresh: function() {
 
     },
 
     /**
      * 页面上拉触底事件的处理函数
      */
-    onReachBottom: function () {
+    onReachBottom: function() {
 
     },
 
     /**
      * 用户点击右上角分享
      */
-    onShareAppMessage: function () {
+    onShareAppMessage: function() {
 
     },
     /**
      * picker监听列改变
      */
-    MultiColumnChange: function (e) {
+    MultiColumnChange: function(e) {
         let _this = this
         if (e.detail.column === 0) { //如果改变的是省份
             var _pid = _this.data.multiArray[0][e.detail.value].id
@@ -100,7 +99,7 @@ Page({
             console.log(_this.data.pIndex)
             App._post_form("region/getCity", {
                 pid: _pid
-            }, function (res) {
+            }, function(res) {
                 var zxc = _this.data.multiArray
                 zxc[1] = res.data.city
                 zxc[2] = res.data.district
@@ -118,7 +117,7 @@ Page({
             var _pid = _this.data.multiArray[1][e.detail.value].id
             App._post_form("region/getCity", {
                 pid: _pid
-            }, function (res) {
+            }, function(res) {
                 // return false;
                 var zxc = _this.data.multiArray
                 zxc[2] = res.data
@@ -139,9 +138,9 @@ Page({
     /**
      * 遍历二维数组，提取元素成为一维数组
      */
-    splitGame: function (arr, key) {
+    splitGame: function(arr, key) {
         var data = [];
-        arr.map(function (value, index) {
+        arr.map(function(value, index) {
             data.push(value[key]);
         });
         return data;
@@ -150,7 +149,7 @@ Page({
     /**
      * 选择地址(点击确定触发)
      */
-    MultiChange: function (e) {
+    MultiChange: function(e) {
         let _this = this
         console.log(e)
         this.setData({
@@ -163,7 +162,7 @@ Page({
         console.log(_this.data.indexArr)
         App._post_form("region/getCity", {
             pid: this.data.usQu
-        }, function (res) {
+        }, function(res) {
             _this.setData({
                 zhenArray: res.data
             })
@@ -173,7 +172,7 @@ Page({
     /**
      * 选择乡镇/街道
      */
-    zhenChange: function (e) {
+    zhenChange: function(e) {
         console.log(e)
         this.setData({
             zhenIndex: e.detail.value,
@@ -200,11 +199,11 @@ Page({
     /**
      * 获取省份数据
      */
-    getProvince: function () {
+    getProvince: function() {
         let _this = this
         App._post_form("region/getCity", {
             pid: 0
-        }, function (res) {
+        }, function(res) {
             console.log(res)
             var abc = []
             abc.push(res.data.province)
@@ -220,12 +219,12 @@ Page({
     /**
      * 获取用户详情
      */
-    getUserInfo: function () {
+    getUserInfo: function() {
         let _this = this
         App._post_form('user/getUserInfo', {
             access_token: App.access_token,
             user_token: App.getGlobalData('user_token')
-        }, function (result) {
+        }, function(result) {
             console.log(result)
             var ssqIndex = result.data.ssq_index.split(",").map(Number)
             var zhen_index = ssqIndex[3]
@@ -266,16 +265,16 @@ Page({
                 var ssq = []
                 App._post_form("region/getCity", {
                     pid: 0
-                }, function (res) {
+                }, function(res) {
                     ssq.push(res.data.province)
                     App._post_form("region/getCity", {
                         pid: result.data.us_sheng
-                    }, function (res) {
+                    }, function(res) {
                         ssq.push(res.data.city)
 
                         App._post_form("region/getCity", {
                             pid: result.data.us_shi
-                        }, function (res) {
+                        }, function(res) {
 
                             ssq.push(res.data)
                             _this.setData({
@@ -284,7 +283,7 @@ Page({
                             })
                             App._post_form("region/getCity", {
                                 pid: result.data.us_qu
-                            }, function (res) {
+                            }, function(res) {
 
                                 _this.setData({
                                     zhenArray: res.data,
@@ -302,7 +301,7 @@ Page({
     /**
      * 提交数据到后台
      */
-    submitDate: function (e) {
+    submitDate: function(e) {
         let _this = this
         console.log(e.detail.value)
         var values = e.detail.value
@@ -325,8 +324,8 @@ Page({
         values.ssq_index.push(parseInt(_this.data.zhenIndex))
 
         console.log(values)
-        // return false
-        App._post_form("user/editUserInfo", values, function (res) {
+            // return false
+        App._post_form("user/editUserInfo", values, function(res) {
             if (res.code === 200) {
                 wx.showToast({
                     title: '保存成功',
@@ -345,7 +344,7 @@ Page({
     /**
      * 表单验证
      */
-    validation: function (v) {
+    validation: function(v) {
         if (v.us_name === '' || v.us_name.length < 2) {
             this.data.error = '请输入您的真实姓名';
             return false;

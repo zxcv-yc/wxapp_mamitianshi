@@ -1,6 +1,6 @@
 // pages/baby/addBaby.js
 let App = getApp();
-const qwe = require('../../utils/public_wx.js')
+const qwe = require('../../utils/aes_public.js')
 
 
 Page({
@@ -18,22 +18,23 @@ Page({
     /**
      * 生命周期函数--监听页面加载
      */
-    onLoad: function (options) {
-        console.log(qwe.Encrypt("qwert"))
-        console.log(qwe.Decrypt("11886B8DE189AF142022ED7B81FFD4D9"))
+    onLoad: function(options) {
+        console.log(qwe.encrypt("中文Abc123，"))
+        console.log(qwe.decrypt('BrFqTu6TyIEjIFc4abZSvA=='))
+            // console.log(qwe.Decrypt("11886B8DE189AF142022ED7B81FFD4D9"))
     },
 
     /**
      * 生命周期函数--监听页面初次渲染完成
      */
-    onReady: function () {
+    onReady: function() {
 
     },
 
     /**
      * 生命周期函数--监听页面显示
      */
-    onShow: function () {
+    onShow: function() {
         wx.getStorage({
             key: 'inj_id_name',
             success: (result) => {
@@ -54,42 +55,42 @@ Page({
     /**
      * 生命周期函数--监听页面隐藏
      */
-    onHide: function () {
+    onHide: function() {
 
     },
 
     /**
      * 生命周期函数--监听页面卸载
      */
-    onUnload: function () {
+    onUnload: function() {
 
     },
 
     /**
      * 页面相关事件处理函数--监听用户下拉动作
      */
-    onPullDownRefresh: function () {
+    onPullDownRefresh: function() {
 
     },
 
     /**
      * 页面上拉触底事件的处理函数
      */
-    onReachBottom: function () {
+    onReachBottom: function() {
 
     },
 
     /**
      * 用户点击右上角分享
      */
-    onShareAppMessage: function () {
+    onShareAppMessage: function() {
 
     },
 
     /**
      * 跳转选择接种点页面
      */
-    jumpChooseInjectposition: function () {
+    jumpChooseInjectposition: function() {
         wx.navigateTo({
             url: 'chooseInjectposition',
             success: (result) => {
@@ -109,22 +110,20 @@ Page({
     /**
      * 表单提交
      */
-    submitData: function (e) {
+    submitData: function(e) {
         var values = e.detail.value
         values.baby_sex ? values.baby_sex = 1 : values.baby_sex = 2
         values.inject_position_id = this.data.inject_position_id
         values.baby_id = this.data.baby_id
+        console.log(qwe.encrypt(JSON.stringify(values)))
+            //表单验证
+            // if (!this.validation(values)) {
+            //     App.showError(this.data.error);
+            //     return false
+            // }
 
-        //表单验证
-        // if (!this.validation(values)) {
-        //     App.showError(this.data.error);
-        //     return false
-        // }
-        console.log(values)
-        
-        console.log(CryptoJS.Encrypt("123abc"))
-        // CryptoJS.AesDecrypt()
-return false
+
+        return false
         App._post_form("baby/editBabyInfo", values, res => {
             if (res.code === 200) {
                 wx.showToast({
@@ -135,9 +134,9 @@ return false
                     success: res => {
                         setTimeout(function() {
                             wx.navigateBack({
-                                delta:1
+                                delta: 1
                             })
-                          }, 1500);
+                        }, 1500);
                     }
                 });
             }
@@ -146,7 +145,7 @@ return false
     /**
      * 表单验证
      */
-    validation: function (v) {
+    validation: function(v) {
         if (v.baby_name === '' || v.baby_name.length < 2) {
             this.data.error = '请输入宝宝姓名';
             return false;
