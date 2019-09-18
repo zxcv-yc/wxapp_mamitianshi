@@ -10,6 +10,7 @@ Page({
     data: {
         aa: null,
         showLoad: 1,
+        babyList: null,
         colorList: [{
                 title: '桃粉',
                 name: 'pink',
@@ -153,8 +154,10 @@ Page({
         let _this = this
         App._post_form("baby/getBabyList", {}, res => {
             console.log(res)
+            var resData = JSON.parse(App.decrypt(res.data))
+            console.log(resData)
             _this.setData({
-                babyList: res.data,
+                babyList: resData,
                 showLoad: false
             })
         })
@@ -184,27 +187,70 @@ Page({
             confirmColor: '#3CC51F',
             success: (result) => {
                 if (result.confirm) {
-                    App._post_form('baby/delBaby',{baby_id:e.target.dataset.id},res=>{
+                    var dataStr = {
+                        baby_id: +e.target.dataset.id
+                    }
+                    dataStr = App.encrypt(JSON.stringify(dataStr))
+                    App._post_form('baby/delBaby', {
+                        data: dataStr
+                    }, res => {
                         console.log(res)
-                        if(res.code === 200){
+                        if (res.code === 200) {
                             wx.showToast({
                                 title: '删除成功',
                                 icon: 'success',
                                 duration: 1500,
                                 mask: false,
-                                success: (result)=>{
-                                    setTimeout(function() {
-                                       _this.getBabyList()
-                                      }, 1500);
+                                success: (result) => {
+                                    setTimeout(function () {
+                                        _this.getBabyList()
+                                    }, 1500);
                                 },
                             });
                         }
                     })
-                }else if (result.cancel) {
+                } else if (result.cancel) {
                     console.log('用户点击取消')
-                  }
+                }
 
             },
         });
     },
+    /**
+     * 修改默认
+     */
+    changeIsDefault: function (e) {
+        let  _this = this
+        console.log(e)
+        console.log(App.decrypt('rMMOI+LlKlSYFSFV+6vzlg=='))
+        if (e.detail.value) {
+            wx.showModal({
+                title: '提示',
+                content: '您确定要将此条宝宝信息设为默认吗',
+                showCancel: true,
+                cancelText: '取消',
+                cancelColor: '#000000',
+                confirmText: '确定',
+                confirmColor: '#3CC51F',
+                success: (result) => {
+                    if (result.confirm) {
+                        _this.setData({
+                            showLoad:1
+                        })
+                        var babyId = App.encrypt(JSON.stringify({
+                            b_id: e.currentTarget.dataset.id
+                        }))
+                        console.log(babyId)
+                        App._post_form('baby/babyDefault', {
+                            data: babyId
+                        }, res => {
+                          if(res.code === 200){
+                              _this.getBabyList()
+                          }
+                        })
+                    }
+                },
+            });
+        }
+    }
 })

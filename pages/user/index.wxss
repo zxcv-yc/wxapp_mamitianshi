@@ -4,7 +4,12 @@ page {
     background-color: #fafafa;
     position: relative;
 }
-
+.show{
+    display: block;
+}
+.hide{
+    display: none;
+}
 .user_card {
     height: 260rpx;
     background: linear-gradient(115deg, #3aff93, #23cd70);

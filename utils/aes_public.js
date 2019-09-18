@@ -2,13 +2,14 @@
 var aes = require('aes.min.js'); //引入aes类包
 //URl: https://github.com/wzqwzq666/JS_AESencode/blob/master/utils/aes.js
 
-//十六位十六进制数作为秘钥
-var aeskey = aes.CryptoJS.enc.Utf8.parse("zxcvbnmasdfghjkl");
-//十六位十六进制数作为秘钥偏移量
-var aesiv = aes.CryptoJS.enc.Utf8.parse('mnbvcxzlkjhgfdae');
+
 
 // 加密
 function encrypt(data) {
+  //十六位十六进制数作为秘钥
+  var aeskey = aes.CryptoJS.enc.Utf8.parse("_MAMI_tianshi_RT");
+  //十六位十六进制数作为秘钥偏移量
+  var aesiv = aes.CryptoJS.enc.Utf8.parse('mnbvcxzlkjhgfdae');
     var srcs = aes.CryptoJS.enc.Utf8.parse(data);
     var encrypted = aes.CryptoJS.AES.encrypt(srcs, aeskey, { iv: aesiv, mode: aes.CryptoJS.mode.CBC, padding: aes.CryptoJS.pad.Pkcs7 });
     //返回base64加密结果
@@ -17,6 +18,10 @@ function encrypt(data) {
 
 //解密
 function decrypt(data) {
+  //十六位十六进制数作为秘钥
+  var aeskey = aes.CryptoJS.enc.Utf8.parse("_MAMI_tianshi_RT");
+  //十六位十六进制数作为秘钥偏移量
+  var aesiv = aes.CryptoJS.enc.Utf8.parse('mnbvcxzlkjhgfdae');
     // data是base64编码数据
     var decrypt = aes.CryptoJS.AES.decrypt(data, aeskey, { iv: aesiv, mode: aes.CryptoJS.mode.CBC, padding: aes.CryptoJS.pad.Pkcs7 });
     var decryptedStr = decrypt.toString(aes.CryptoJS.enc.Utf8);

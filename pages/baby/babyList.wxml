@@ -3,12 +3,15 @@
     <view class="action" slot="right"></view>
 </cu-custom>
 <view class="listBox " hover-class="none" hover-stop-propagation="false" wx:if="{{babyList}}">
-    <view class="listItem shadow-warp bg-white" hover-class="none" hover-stop-propagation="false"  wx:for="{{babyList}}" wx:for-item="item" wx:key="" wx:for-index="idx">
+    <view class="listItem shadow-warp bg-white" hover-class="none" hover-stop-propagation="false" wx:for="{{babyList}}" wx:for-item="item" wx:key="" wx:for-index="idx">
         <view class="listTitle solid-bottom">
             <view class="cu-bar bg-white">
                 <view class="action">
                     <text class="cuIcon-title text-{{colorList[idx].name}}"></text>
-                    <text>{{item.baby_name}}</text>
+                    <text>
+                        <text class="cu-tag bg-green light radius sm" wx:if="{{item.is_default}}">默认</text>
+                        <text>      {{item.baby_name}}</text>
+                    </text>
                 </view>
             </view>
         </view>
@@ -17,10 +20,31 @@
             <view class="content_birth">生日：{{item.baby_birth_date}}</view>
         </view>
         <view class="listButton">
-            <view class="editBtn  text-Abc cu-btn line-blue round" data-id="{{item.id}}" bind:tap="editBaby">编辑</view>
-            <view class="deleteBtn text-Abc cu-btn line-red round"  data-id="{{item.id}}" bind:tap="deleteBaby">删除</view>
+            <view class="injBtn text-Abc cu-btn line-green round" data-id="{{item.id}}" bind:tap="deleteBaby">
+                接种
+            </view>
+            <view class="editBtn  text-Abc cu-btn line-blue round" data-id="{{item.id}}" bind:tap="editBaby">
+                编辑
+            </view>
+            <view class="deleteBtn text-Abc cu-btn line-red round" data-id="{{item.id}}" bind:tap="deleteBaby">
+                删除
+            </view>
+        </view>
+        <view class="_border" hover-class="none" hover-stop-propagation="false"></view>
+        <view class="kaiguan" wx:if="{{!item.is_default}}">
+            <form>
+                <view class="cu-form-group">
+                    <view class="title" style="font-size:24rpx;">设为默认</view>
+                    <switch bindchange="changeIsDefault"  data-id="{{item.id}}" data-name="{{item.name}}"></switch>
+                </view>
+            </form>
         </view>
     </view>
+    <navigator class="" target="" url="addBaby" hover-class="none" open-type="navigate">
+        <button class="addBtn shadow shadow-lg bg-green" hover-class="none" hover-stop-propagation="false">
+            添加
+        </button>
+    </navigator>
 </view>
 <view wx:else class="noBaby" hover-class="none" hover-stop-propagation="false">
     <view class="img_box" hover-class="none" hover-stop-propagation="false">
@@ -28,7 +52,7 @@
     </view>
     <view class="_text" hover-class="none" hover-stop-propagation="false">您还没有添加宝宝信息，点击去添加～</view>
     <navigator class="" target="" url="addBaby" hover-class="none" open-type="navigate">
-        <view class="addBtn shadow shadow-lg bg-green" hover-class="none" hover-stop-propagation="false">
+        <view class="addBtn elseBtn shadow shadow-lg bg-green" hover-class="none" hover-stop-propagation="false">
             添加
         </view>
     </navigator>

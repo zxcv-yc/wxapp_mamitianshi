@@ -7,26 +7,33 @@ Page({
      * 页面的初始数据
      */
     data: {
-        id_name: null
+        id_name: null,
+        indexArr: [0, 0, 0],
+        multiArray: [],
+        zhenArray: [{
+            "name": "请先选择省市区"
+        }],
+        zhenIndex: 0, //乡镇选择器的索引
+        showLoad: 1,
     },
 
     /**
      * 生命周期函数--监听页面加载
      */
-    onLoad: function(options) {
-        this.geteInjectpositionList()
-            // console.log(JSEncrypt)
+    onLoad: function (options) {
 
+        // console.log(JSEncrypt)
+        this.getProvince()
         // this.getEncryptKey()
 
 
-        var pub_key = `-----BEGIN PUBLIC KEY-----
-            MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDpoODVtnSztGyb//p+g/Ob36jb
-            3jzWzS2qovOjpY/rrTjwlVcQpB2m1nZDQNpTFsG8ZBl7uPw3M81lr7NRRn6tY7Om
-            8tbOOsRgY6u0xwbgdRStFFvwPzZ1HehiQ6WB8za8cucCyvuqmBRp7HOjO4Aa9t0r
-            IvZ/hoWMeSvjnAVbMwIDAQAB
-            -----END PUBLIC KEY-----`
-        console.log(WX_RAS.jiemi('fcp8gAL36Cxby/IFyEWOHbyk/9wRnBPvNoCnOdwyU3wenk1hj6rsn/S6XVIQNWSrhhPa1xjDC4n99ZYEsiJysNtGcM8dyCyDSe3WBXXg03SavsE4Q+oP9kSW+klAn1LXznAaMLd0cJhn6pZYr0x2gMDeaiSelWwrB6fETIgSl2Y=', pub_key))
+        // var pub_key = `-----BEGIN PUBLIC KEY-----
+        //     MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDpoODVtnSztGyb//p+g/Ob36jb
+        //     3jzWzS2qovOjpY/rrTjwlVcQpB2m1nZDQNpTFsG8ZBl7uPw3M81lr7NRRn6tY7Om
+        //     8tbOOsRgY6u0xwbgdRStFFvwPzZ1HehiQ6WB8za8cucCyvuqmBRp7HOjO4Aa9t0r
+        //     IvZ/hoWMeSvjnAVbMwIDAQAB
+        //     -----END PUBLIC KEY-----`
+        // console.log(WX_RAS.jiemi('fcp8gAL36Cxby/IFyEWOHbyk/9wRnBPvNoCnOdwyU3wenk1hj6rsn/S6XVIQNWSrhhPa1xjDC4n99ZYEsiJysNtGcM8dyCyDSe3WBXXg03SavsE4Q+oP9kSW+klAn1LXznAaMLd0cJhn6pZYr0x2gMDeaiSelWwrB6fETIgSl2Y=', pub_key))
 
 
 
@@ -35,55 +42,55 @@ Page({
     /**
      * 生命周期函数--监听页面初次渲染完成
      */
-    onReady: function() {
+    onReady: function () {
 
     },
 
     /**
      * 生命周期函数--监听页面显示
      */
-    onShow: function() {
+    onShow: function () {
 
     },
 
     /**
      * 生命周期函数--监听页面隐藏
      */
-    onHide: function() {
+    onHide: function () {
 
     },
 
     /**
      * 生命周期函数--监听页面卸载
      */
-    onUnload: function() {
+    onUnload: function () {
 
     },
 
     /**
      * 页面相关事件处理函数--监听用户下拉动作
      */
-    onPullDownRefresh: function() {
+    onPullDownRefresh: function () {
 
     },
 
     /**
      * 页面上拉触底事件的处理函数
      */
-    onReachBottom: function() {
+    onReachBottom: function () {
 
     },
 
     /**
      * 用户点击右上角分享
      */
-    onShareAppMessage: function() {
+    onShareAppMessage: function () {
 
     },
     /**
      * 提交
      */
-    submitData: function(e) {
+    submitData: function (e) {
         if (!this.data.id_name) {
             wx.showModal({
                 title: '提示',
@@ -109,43 +116,148 @@ Page({
 
     },
     /**
-     * 单选框改变监听
+     * picker监听列改变
      */
-    radioFill: function(e) {
-        var value = e.detail.value
-        value.split(',')
-        this.setData({
-                id_name: value.split(",")
+    MultiColumnChange: function (e) {
+        let _this = this
+        _this.setData({
+            list: null,
+            zhenIndex:0,
+            zhenArray:null
+        })
+        if (e.detail.column === 0) { //如果改变的是省份
+            var _pid = _this.data.multiArray[0][e.detail.value].id
+            _this.data.pIndex = e.detail.value
+            console.log(_this.data.pIndex)
+            App._post_form("region/getCity", {
+                pid: _pid
+            }, function (res) {
+                var zxc = _this.data.multiArray
+                zxc[1] = res.data.city
+                zxc[2] = res.data.district
+                _this.setData({
+                    multiArray: zxc,
+                })
+
             })
-            // var privateKey = '-----BEGIN RSA PRIVATE KEY-----MIICXgIBAAKBgQCoChRDJ6e7BTE5yYBIS + NGYBpDs7ftEematqhvMmOFcJng7qjJk + yJ1j7DCqbCD2f / BI6gTfGXASiYuO6kklZu8Pkw4HAUkaaGyhaC8Z + TMg79PPRz5hziEdFXPTdXvXudiXbI2Wi6D90ZaSwN6ZHs7Mtc5VgGK3jxS35iLm+ oAQIDAQABAoGBAI + nHi9SxUdSZwS5yBsGFSNioNFj4Eag243RvShicUXwPvxVyqGY / cvQBhODFZAsz4Dpimxsda3b5bK51fmGyK / nXraHRunWcG7cDDB0EnRpGh4LvMI5Tny + kV0v07N0kkYF+ Lig88IjyBXMAY8m97QK / Huf6MsDFo7B6maSvlmBAkEA35GXk6achryGAoUyyLSro7bI9A9 + wXWFdXoqu1 / X1sZ8taGy7saB + XEA6EQ + XHRp7rZkQ5StoBL +reDGvLJLWQJBAMBqW / F + qg1VpmV / EfYTSS0 + jliw / Ik4kKHLuD / bYK61FG80JIoxLbelB / 1ZVZ8WR0cUKgrmoo8HOggjocNTNOkCQQCYibK86CHGAF0C3TSgIj01r2H+u4 / FmVScqeT8AVG31aeDGbeHGOPXeJWg4 + cUl80rNUDFp2yrWipwInwWhSPJAkAf+ 02u9Ru0vbC7nARTP19hWs10Jm7DLBi2G9NTIdaPE2ADH8qXAZeUt6R9UrTtjVlpkgtu5mjMlynpImsHuTPJAkEAoU10QspqfxL4F44KdHjHY1btc8wb4soaLy / eAY8PLE + jpNh8jsqA8v1EqLQbYz50D / BpkJsT5W + wydTvtEE3sA ==-----END RSA PRIVATE KEY-----'
-            // var publicKey = '-----BEGIN PUBLIC KEY-----MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCoChRDJ6e7BTE5yYBIS + NGYBpDs7ftEematqhvMmOFcJng7qjJk + yJ1j7DCqbCD2f / BI6gTfGXASiYuO6kklZu8Pkw4HAUkaaGyhaC8Z+ TMg79PPRz5hziEdFXPTdXvXudiXbI2Wi6D90ZaSwN6ZHs7Mtc5VgGK3jxS35iLm+ oAQIDAQAB-----END PUBLIC KEY-----'
-            // console.log(WX_RAS.jiami("中文，ABC,123",pub_key))
-        console.log(this.data.rsa_pub)
-        console.log(this.data.aes_key)
-            // console.log(WX_RAS.jiemi(this.data.aes_key, this.data.rsa_pub))
-        console.log(WX_RAS.getDetryptPwd(this.data.aes_key, this.data.rsa_pub))
+            _this.setData({
+                indexArr: [_this.data.pIndex, 0, 0]
+            })
+            console.log(_this.data.indexArr)
+        }
+        if (e.detail.column === 1) { //如果改变的是市
+            var _pid = _this.data.multiArray[1][e.detail.value].id
+            App._post_form("region/getCity", {
+                pid: _pid
+            }, function (res) {
+                // return false;
+                var zxc = _this.data.multiArray
+                zxc[2] = res.data
+                _this.setData({
+                    multiArray: zxc,
+                })
+            })
+            _this.setData({
+                indexArr: [_this.data.pIndex, e.detail.value, 0]
+            })
+            console.log(_this.data.pIndex)
+
+        }
+
+        console.log(e)
 
     },
-    // RvltOtv0eMwwO8risWSNKgVWKc/E7evEMCF/WzQ3OHL+fsRp4EhpSf2yuaFLBAu6jueChP/JGV2kuBNd+UEz9M6eAnzzDWim5bTQ6gpP5Stt8R9w+/UPgChTil1E8xQHc3pYkbuVmNdKhKYb033Esi5cj9KfYy4pI6wPf6ooxV8=
     /**
-     * 获取相应街道下的接种点列表
+     * 选择地址(点击确定触发)
      */
-    geteInjectpositionList: function() {
+    MultiChange: function (e) {
         let _this = this
-        App._post_form("user/getUserInfo", {}, result => {
-            console.log(result)
-            App._post_form_ice("injectposition/positionList", {
-                town: result.data.us_zhen
-            }, res => {
-                console.log(res)
-                _this.setData({
-                    list: res.data
-                })
+
+        console.log(e)
+        this.setData({
+            showLoad: 1,
+            indexArr: e.detail.value,
+            usSheng: this.data.multiArray[0][e.detail.value[0]].id,
+            usShi: this.data.multiArray[1][e.detail.value[1]].id,
+            usQu: this.data.multiArray[2][e.detail.value[2]].id,
+            ssqIndex: e.detail.value
+        })
+        console.log(_this.data.usQu)
+        App._post_form("region/getCity", {
+            pid: this.data.usQu
+        }, function (res) {
+            _this.setData({
+                zhenArray: res.data,
+                showLoad: false
+            })
+        })
+
+    },
+    /**
+     * 获取省份数据
+     */
+    getProvince: function () {
+        let _this = this
+        App._post_form("region/getCity", {
+            pid: 0
+        }, function (res) {
+            console.log(res)
+            var abc = []
+            abc.push(res.data.province)
+            abc.push(res.data.city)
+            abc.push(res.data.district)
+            console.log(abc)
+            _this.setData({
+                multiArray: abc,
+                showLoad: false
             })
         })
     },
+    /**
+     * 单选框改变监听
+     */
+    radioFill: function (e) {
+        var value = e.detail.value
+        value.split(',')
+        this.setData({
+            id_name: value.split(",")
+        })
 
-    getEncryptKey: function() {
+    },
+    /**
+     * 获取相应街道下的接种点列表
+     */
+    geteInjectpositionList: function (id) {
+        let _this = this
+        this.setData({
+            showModal: 1
+        })
+        App._post_form_ice("injectposition/positionList", {
+            town: id
+        }, res => {
+            console.log(res)
+            _this.setData({
+                list: res.data,
+                showModal: false
+            })
+        })
+
+    },
+    /**
+     * 选择乡镇/街道
+     */
+    zhenChange: function (e) {
+        this.setData({
+            list: null
+            })
+        console.log(this.data.zhenArray)
+        this.setData({
+            zhenIndex: e.detail.value,
+            us_zhen: this.data.zhenArray[e.detail.value].id
+        })
+        this.geteInjectpositionList(this.data.us_zhen)
+    },
+    getEncryptKey: function () {
         let _this = this
         App._post_form("common/encryptKey", {}, res => {
             console.log(res)

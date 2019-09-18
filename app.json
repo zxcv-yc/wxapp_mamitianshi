@@ -1,11 +1,12 @@
 {
     "pages": [
-        "pages/baby/addBaby",
+
         
         "pages/index/index",
         "pages/find/index",
         "pages/equipment/index",
         "pages/user/index",
+                "pages/baby/addBaby",
         "pages/equipment/addEquipment",
         "pages/user/userInfo",
         "pages/baby/babyList",
