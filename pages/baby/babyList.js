@@ -156,10 +156,19 @@ Page({
             console.log(res)
             var resData = JSON.parse(App.decrypt(res.data))
             console.log(resData)
-            _this.setData({
-                babyList: resData,
-                showLoad: false
-            })
+            if (resData[0] == undefined) {
+                console.log("if here")
+                _this.setData({
+                    babyList: null,
+                    showLoad: false
+                })
+            } else {
+                _this.setData({
+                    babyList: resData,
+                    showLoad: false
+                })
+            }
+
         })
     },
     /**
@@ -220,7 +229,7 @@ Page({
      * 修改默认
      */
     changeIsDefault: function (e) {
-        let  _this = this
+        let _this = this
         console.log(e)
         console.log(App.decrypt('rMMOI+LlKlSYFSFV+6vzlg=='))
         if (e.detail.value) {
@@ -235,7 +244,7 @@ Page({
                 success: (result) => {
                     if (result.confirm) {
                         _this.setData({
-                            showLoad:1
+                            showLoad: 1
                         })
                         var babyId = App.encrypt(JSON.stringify({
                             b_id: e.currentTarget.dataset.id
@@ -244,9 +253,9 @@ Page({
                         App._post_form('baby/babyDefault', {
                             data: babyId
                         }, res => {
-                          if(res.code === 200){
-                              _this.getBabyList()
-                          }
+                            if (res.code === 200) {
+                                _this.getBabyList()
+                            }
                         })
                     }
                 },

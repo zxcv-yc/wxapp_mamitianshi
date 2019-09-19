@@ -227,7 +227,7 @@ Page({
             var resData = JSON.parse(App.decrypt(result.data))
             console.log(resData)
             // return false
-            var ssqIndex = resData.ssq_index.split(",").map(Number)
+            var ssqIndex = resData.ssq_index?resData.ssq_index.split(",").map(Number):[0,0,0,0]
             var zhen_index = ssqIndex[3]
             ssqIndex.splice(-1, 1)
 
@@ -261,23 +261,23 @@ Page({
                     eDate: '请选择'
                 })
             }
-            if (resData.us_sheng === '' || resData.us_sheng === 0) {
+            if (resData.us_sheng === '' || resData.us_sheng === null) {
                 _this.getProvince()
             } else {
                 var ssq = []
                 App._post_form("region/getCity", {
                     pid: 0
-                }, function (res) {
+                },  res=> {
                     console.log(res)
                     ssq.push(res.data.province)
                     App._post_form("region/getCity", {
                         pid: resData.us_sheng
-                    }, function (res) {
+                    }, res=> {
                         ssq.push(res.data.city)
 
                         App._post_form("region/getCity", {
                             pid: resData.us_shi
-                        }, function (res) {
+                        }, res=> {
 
                             ssq.push(res.data)
                             _this.setData({
@@ -286,7 +286,7 @@ Page({
                             })
                             App._post_form("region/getCity", {
                                 pid: resData.us_qu
-                            }, function (res) {
+                            }, res=> {
 
                                 _this.setData({
                                     zhenArray: res.data,

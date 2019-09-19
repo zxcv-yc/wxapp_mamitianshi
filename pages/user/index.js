@@ -26,7 +26,7 @@ Page({
      * 生命周期函数--监听页面显示
      */
     onShow: function() {
-        this.getUserDetail()
+
     },
 
     /**
@@ -70,22 +70,7 @@ Page({
     onShareAppMessage: function() {
 
     },
-    /**
-     * 判断用户登录
-     */
-    getUserDetail: function() {
-
-        if (App.isLogin() === false) { // 如果用户没有登录，就重新登录
-            wx.hideNavigationBarLoading();
-            App.doLogin();
-            return false;
-        }
-        let _this = this;
-
-        // App._get('User/getUserDetail', {}, function (result) {
-        //   this.setData(result.data);
-        // });
-    },
+   
     /**
      * 执行扫码
      */

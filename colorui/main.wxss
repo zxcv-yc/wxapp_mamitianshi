@@ -2470,7 +2470,6 @@ button.icon.lg {
 	right: -20rpx;
 	margin: auto;
 } */
-
 .cu-form-group textarea[disabled],
 .cu-form-group textarea[disabled] .placeholder {
     color: transparent;
@@ -2528,6 +2527,8 @@ button.icon.lg {
     background-color: #f8f8f8;
     border-radius: 10rpx;
     overflow: hidden;
+   /* z-index: 10001YC */
+   /* max-height: 80% */
 }
 
 .cu-modal.bottom-modal::before {
