@@ -26,9 +26,9 @@
         </view>
     </view>
     <view class="cu-item arrow margin-top">
-        <navigator class="content" target="" url="index" hover-class="none" open-type="navigate">
+        <navigator class="content" target="" url="../appointment/beginAppointment" hover-class="none" open-type="navigate">
             <text class="cuIcon-light menu_icon"></text>
-            <text class="text-grey">疫苗接种</text>
+            <text class="text-grey">接种预约</text>
         </navigator>
     </view>
     <view class="cu-item arrow margin-top">

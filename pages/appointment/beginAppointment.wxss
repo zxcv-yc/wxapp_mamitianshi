@@ -1,4 +1,7 @@
 /* pages/appointment/beginAppointment.wxss */
+/* page{
+	padding-top: 150rpx;
+} */
 .cu-form-group picker {
 	flex: 1;
 	padding-right: 40rpx;
@@ -67,4 +70,8 @@
     width: 70%;
     margin: 10rpx auto; 
     border: 1rpx solid #1cbbb4;
+}
+.ym_num{
+	font-size: 40rpx;
+	font-weight: 400
 }
