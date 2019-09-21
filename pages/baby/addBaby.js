@@ -20,7 +20,7 @@ Page({
      */
     onLoad: function (options) {
         console.log(App.encrypt("中文Abc123，"))
-      console.log(JSON.parse(App.decrypt('T1ut/i0edCMqu4Mc7EYikw==')))
+        console.log(JSON.parse(App.decrypt('T1ut/i0edCMqu4Mc7EYikw==')))
         // console.log(qwe.Decrypt("11886B8DE189AF142022ED7B81FFD4D9"))
     },
 
@@ -116,16 +116,17 @@ Page({
         values.inject_position_id = this.data.inject_position_id
         values.baby_id = this.data.baby_id
 
-        //    // 表单验证
-        //     if (!this.validation(values)) {
-        //         App.showError(this.data.error);
-        //         return false
-        //     }
 
-        values = App.encrypt(JSON.stringify(values))
+        // 表单验证
+        if (!this.validation(values)) {
+            App.showError(this.data.error);
+            return false
+        }
+
+
         console.log(values)
         App._post_form("baby/editBabyInfo", {
-            data: values
+            data: App.encrypt(JSON.stringify(values))
         }, res => {
             console.log(res)
             if (res.code === 200) {

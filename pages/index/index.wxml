@@ -10,7 +10,7 @@
 </swiper>
 <view class="index_menu shadow shadow-lg  bg-white" hover-class="none" hover-stop-propagation="false">
     <view class="menu_item" style="color:#ff705c">
-        <navigator url="../appointment/beginAppointment">
+        <navigator url="../appointment/appointmentList">
             <image class="menu_image" src="../../images/menu0.png" mode="widthFix"></image>
             <view class="menu_text">预约</view>
         </navigator>
@@ -27,38 +27,60 @@
 <view class="cu-bar bg-white">
     <view class="action">
         <text class="cuIcon-titles text-green"></text>
-        <text class="text-xl text-bold">
-            <text class="" wx:if="{{defaultBaby}}">即将接种(</text>
-            <text class="text-green" wx:if="{{defaultBaby}}">{{defaultBaby.baby_name}}</text>
-            <text class="" wx:if="{{defaultBaby}}">)</text>
-        </text>
+        <text class="text-xl text-bold">即将接种</text>
     </view>
     <view class=" _icon" hover-class="none" hover-stop-propagation="false">
         <view class="iconfont icon-shijian" selectable="false" space="false" decode="false" style="font-size:40rpx;"></view>
     </view>
 </view>
-<view class="list_box " hover-class="none">
-    <view class="list_item" wx:if="{{defaultBaby}}" hover-class="none" hover-stop-propagation="false">
-        <view class="cu-list menu sm-border {{menuCard?'card-menu margin-top':''}}">
-            <view class="cu-item {{menuArrow?'arrow':''}}" wx:for="{{injList}}" wx:for-item="item" wx:key>
+<view class="list_box  bg-white shadow-warp " hover-class="none" wx:for="{{babyVacInfo}}" wx:for-item="item" wx:key wx:if="{{babyVacInfo}}" wx:for-index="i">
+    <view class="cu-bar bg-white solid-bottom">
+        <view class="action">
+            <text class=" cuIcon-favorfill text-{{ColorList[i].name}} "></text>
+            <text class="text-bold text-{{ColorList[i].name}}">{{item.baby_name}}</text>
+        </view>
+    </view>
+    <view class=" padding-xs text-bold text-{{ColorList[i].name}} text-xl">{{item.next_inject_date}}</view>
+    <view wx:for="{{item.vaccine_list}}" wx:for-item="vac_item" wx:key >
+        <view class="" style="line-height:60rpx;">{{vac_item.zh_name_full}}</view>
+    </view>
+   
+   <view>
+       <button class="cu-btn round line-{{ColorList[i].name}} shadow margin-top" bind:tap="jumpAppointment" >立即预约</button>
+   </view>
+     
+      
+</view>
+<!-- <view class="list_box  bg-white shadow-warp " hover-class="none" wx:for="{{babyVacInfo}}" wx:for-item="item" wx:key wx:if="{{babyVacInfo}}" wx:for-index="i">
+    <view class="cu-bar bg-white solid-bottom">
+        <view class="action">
+            <text class=" cuIcon-favorfill text-{{ColorList[i].name}} "></text>
+            <text class="text-bold text-{{ColorList[i].name}}">{{item.baby_name}}</text>
+        </view>
+    </view>
+    <view class="list_item" hover-class="none" hover-stop-propagation="false">
+        <view class="cu-list menu card-menu sm-border margin-top" wx:for="{{item.vaccine_list}}" wx:for-item="vac_item" wx:key>
+            <view class="cu-item">
                 <view class="content" style="text-align:left">
-                    <text class="cuIcon-favorfill text-green"></text>
-                    <text class="text-green">{{item.zh_name_full}}</text>
-                    <text class="text-grey text-sm">{{injDate}}</text>
+                    <text class="cuIcon-title text-{{ColorList[i].name}}"></text>
+                    <text class="text-{{ColorList[i].name}} text-lg">
+                        <text>{{item.next_inject_date}}</text>
+                    </text>
                 </view>
                 <view class="action">
-                    <button class="cu-btn round bg-green shadow  text-white" bind:tap="jumpAppointment" data-id="{{item.id}}">
-                        <text class="cuIcon-edit  text-white"></text>
+                    <button class="cu-btn sm  round bg-{{ColorList[i].name}} light shadow text-white" bind:tap="jumpAppointment" data-id="{{item.id}}">
+                        <text class="cuIcon-edit  text-{{ColorList[i].name}}"></text>
                         预约
                     </button>
                 </view>
             </view>
+            <view class="text-grey text-sm">{{vac_item.zh_name_full}}</view>
         </view>
     </view>
-    <view class="zanwu" wx:else hover-class="none" hover-stop-propagation="false">
-        <image class="list_img" src="../../images/zanwu_jiezhong.png" mode="widthFix"></image>
-        <view class="_text">暂无即将接种的预约记录~{{idx}}</view>
-    </view>
+</view> -->
+<view class="zanwu" hover-class="none" hover-stop-propagation="false" wx:if="{{!babyVacInfo}}">
+    <image class="list_img" src="../../images/zanwu_jiezhong.png" mode="widthFix"></image>
+    <view class="_text">暂无即将接种的预约记录~</view>
 </view>
 <view class="black_bolck" wx:if="{{showLoad}}"></view>
 <view class="loading_img" wx:if="{{showLoad}}">

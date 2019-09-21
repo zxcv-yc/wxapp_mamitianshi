@@ -1,11 +1,11 @@
-// pages/equipment/index.js
+// pages/appointment/appointmentSuccess.js
 Page({
 
   /**
    * 页面的初始数据
    */
   data: {
-    have: false, //有无蓝牙连接设备
+
   },
 
   /**
@@ -63,24 +63,9 @@ Page({
   onShareAppMessage: function () {
 
   },
-  /**
-   * 点击跳转添加设备页面
-   */
-  addEquipment: function () {
-    wx.navigateTo({
-      url: 'addEquipment',
+  jumpList:function(){
+    wx.redirectTo({
+      url: 'appointmentList',
     });
-  },
-  /**
-   * 奶嘴点击开始检测体温
-   */
-  startingTest:function(){
-    console.log("开始检测")
-  },
-  /**
-   * 奶嘴点击跳转历史记录
-   */
-  jumpHistory:function(){
-    console.log("历史记录")
   }
 })

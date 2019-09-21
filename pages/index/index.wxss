@@ -47,6 +47,11 @@ page {
     background-color: #fff;
     text-align: center;
     padding: 0 0 40rpx 0;
+    width: 90%;
+    margin:0 auto;
+    margin-top:30rpx;
+    border-radius: 20rpx;
+    overflow: hidden;
 }
 
 .list_img {

@@ -26,7 +26,18 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
-
+    wx.openBluetoothAdapter({
+      success: (result)=>{
+        console.log(result)
+        setTimeout(() => {
+          this.getBluetoothAdapterState()
+      }, 1000)
+      },
+      fail: (e)=>{
+        console.log(e)
+      },
+      complete: ()=>{}
+    });
   },
 
   /**
@@ -62,5 +73,30 @@ Page({
    */
   onShareAppMessage: function () {
 
-  }
+  },
+  getBluetoothAdapterState:function() {
+    var that = this;
+    that.toastTitle = '检查蓝牙状态'
+    wx.getBluetoothAdapterState({
+        success: function(res) {
+           _this.startBluetoothDevicesDiscovery()
+        },
+        fail(res) {
+            console.log(res)
+        }
+    })
+},
+startBluetoothDevicesDiscovery:function() {
+  var that = this;
+  setTimeout(() => {
+      wx.startBluetoothDevicesDiscovery({
+          success: function(res) {
+              /* 获取蓝牙设备列表 */
+              that.getBluetoothDevices()
+          },
+          fail(res) {
+          }
+      })
+  }, 1000)
+}
 })

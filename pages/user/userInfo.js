@@ -227,7 +227,7 @@ Page({
             var resData = JSON.parse(App.decrypt(result.data))
             console.log(resData)
             // return false
-            var ssqIndex = resData.ssq_index?resData.ssq_index.split(",").map(Number):[0,0,0,0]
+            var ssqIndex = resData.ssq_index ? resData.ssq_index.split(",").map(Number) : [0, 0, 0, 0]
             var zhen_index = ssqIndex[3]
             ssqIndex.splice(-1, 1)
 
@@ -243,6 +243,7 @@ Page({
                 sheng_shi_qu: resData.sheng_shi_qu,
                 address_detail: resData.address_detail,
                 indexArr: ssqIndex,
+                ssqIndex:ssqIndex,
                 zhenIndex: zhen_index,
                 usSheng: resData.us_sheng,
                 usShi: resData.us_shi,
@@ -267,17 +268,17 @@ Page({
                 var ssq = []
                 App._post_form("region/getCity", {
                     pid: 0
-                },  res=> {
+                }, res => {
                     console.log(res)
                     ssq.push(res.data.province)
                     App._post_form("region/getCity", {
                         pid: resData.us_sheng
-                    }, res=> {
+                    }, res => {
                         ssq.push(res.data.city)
 
                         App._post_form("region/getCity", {
                             pid: resData.us_shi
-                        }, res=> {
+                        }, res => {
 
                             ssq.push(res.data)
                             _this.setData({
@@ -286,7 +287,7 @@ Page({
                             })
                             App._post_form("region/getCity", {
                                 pid: resData.us_qu
-                            }, res=> {
+                            }, res => {
 
                                 _this.setData({
                                     zhenArray: res.data,
@@ -323,8 +324,17 @@ Page({
             App.showError(_this.data.error);
             return false
         }
-        // _this.data.ssqIndex.push(parseInt(_this.data.zhenIndex))
-        values.ssq_index.push(parseInt(_this.data.zhenIndex))
+        var ssqIndexText = ''
+        for (var i = 0; i < _this.data.ssqIndex.length; i++) {
+            if (i === 0){
+                ssqIndexText = _this.data.ssqIndex[i]
+            }else{
+                ssqIndexText = ssqIndexText + ','+_this.data.ssqIndex[i]
+            }
+        }
+        ssqIndexText= ssqIndexText+','+_this.data.zhenIndex
+        values.ssq_index = ssqIndexText
+        console.log(values)
         values = App.encrypt(JSON.stringify(values))
         console.log(values)
         // return false
@@ -382,4 +392,16 @@ Page({
         }
         return true;
     },
+    /**
+     * ssq_index拼接
+     */
+    getSsqIndexText:function(data){
+        var ssqIndexText = ''
+        for (var i = 0; i < _this.data.ssqIndex; i++) {
+            if (i === 0){
+                ssqIndexText = _this.data.ssqIndex[i]
+            }
+            ssqIndexText = ssqIndexText + ','+_this.data.ssqIndex
+        }
+    }
 })

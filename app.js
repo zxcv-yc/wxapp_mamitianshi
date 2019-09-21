@@ -111,45 +111,50 @@ App({
     data.wxapp_id = App.siteInfo.uniacid;
     data.user_token = App.getGlobalData('user_token'),
       // console.log(data)
-    wx.request({
-      url: App.api_root + url,
-      header: {
-        'content-type': 'application/x-www-form-urlencoded',
-        'accesstoken': App.access_token,
-      },
-      method: 'POST',
-      data: data,
-      success: function (res) {
-        if (res.statusCode !== 200 || typeof res.data !== 'object') {
-          App.showError('网络请求出错');
-          return false;
-        }
-        if (res.data.code === -1) {
-          // 登录态失效, 重新登录
-          App.doLogin(function () {
-            App._post_form(url, data, success, fail);
-          });
-          return false;
-        } else if (res.data.code === 0) {
-          App.showError(res.data.msg, function () {
+      wx.request({
+        url: App.api_root + url,
+        header: {
+          'content-type': 'application/x-www-form-urlencoded',
+          'accesstoken': App.access_token,
+        },
+        method: 'POST',
+        data: data,
+        success: function (res) {
+
+          if (res.statusCode !== 200 || typeof res.data !== 'object') {
+            App.showError('网络请求出错');
+            return false;
+          }
+          // if (res.data.code !== 200) {
+          //   App.showError(res.msg);
+          //   return false;
+          // }
+          if (res.data.code === -1) {
+            // 登录态失效, 重新登录
+            App.doLogin(function () {
+              App._post_form(url, data, success, fail);
+            });
+            return false;
+          } else if (res.data.code === 0) {
+            App.showError(res.data.msg, function () {
+              fail && fail(res);
+            });
+            return false;
+          }
+          success && success(res.data);
+        },
+        fail: function (res) {
+          // console.log(res);
+          App.showError(res.errMsg, function () {
             fail && fail(res);
           });
-          return false;
+        },
+        complete: function (res) {
+          wx.hideLoading();
+          wx.hideNavigationBarLoading();
+          complete && complete(res);
         }
-        success && success(res.data);
-      },
-      fail: function (res) {
-        // console.log(res);
-        App.showError(res.errMsg, function () {
-          fail && fail(res);
-        });
-      },
-      complete: function (res) {
-        wx.hideLoading();
-        wx.hideNavigationBarLoading();
-        complete && complete(res);
-      }
-    });
+      });
   },
 
   /**

@@ -37,6 +37,10 @@
                 </view>
             </view>
             <view class="_info bg-white">
+                 <view class="dizhi padding-sm">
+                    <text class="cuIcon-servicefill text-olive"></text>
+                    电话：{{item.phone}}
+                </view>
                 <view class="dizhi padding-sm">
                     <text class="cuIcon-locationfill text-grey"></text>
                     地址：{{item.address}}
@@ -49,10 +53,7 @@
                     <text class="cuIcon-medalfill text-yellow"></text>
                     资质证书编号：{{idx}}
                 </view>
-                <view class="dizhi padding-sm">
-                    <text class="cuIcon-servicefill text-olive"></text>
-                    电话：{{item.phone}}
-                </view>
+               
             </view>
         </view>
     </radio-group>

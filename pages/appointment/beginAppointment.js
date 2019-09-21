@@ -36,20 +36,37 @@ Page({
    * 生命周期函数--监听页面初次渲染完成
    */
   onReady: function () {
-
-  },
-
-  /**
-   * 生命周期函数--监听页面显示
-   */
-  onShow: function () {
     wx.showToast({
       title: '请先选择您要预约接种的宝宝',
       icon: 'none',
       image: '',
       duration: 1500,
       mask: true,
-    
+    });
+  },
+
+  /**
+   * 生命周期函数--监听页面显示
+   */
+  onShow: function () {
+ 
+
+    wx.getStorage({
+      key: 'inj_id_name',
+      success: (result) => {
+        this.setData({
+          inject_position_id: result.data[0],
+          inj_p_name: result.data[1]
+        })
+        console.log(this.data)
+        wx.removeStorage({
+          key: 'inj_id_name'
+        });
+      },
+      fail: (res) => {
+        console.log(res)
+      }
+
     });
 
   },
@@ -98,11 +115,33 @@ Page({
       var resData = JSON.parse(App.decrypt(res.data))
       console.log(resData)
       if (resData[0] == undefined) {
-        console.log("if here")
         _this.setData({
-          babyList: null,
           showLoad: false
         })
+        wx.showModal({
+          title: '提示',
+          content: '您还没有添加您的宝宝信息',
+          showCancel: true,
+          cancelText: '取消',
+          cancelColor: '#000000',
+          confirmText: '去添加',
+          confirmColor: '#3CC51F',
+          success: (result) => {
+            if (result.confirm) {
+              wx.redirectTo({
+                url: '../baby/addBaby',
+              });
+            } else if (result.cancel) {
+              wx.navigateBack({
+                delta: 1
+              });
+
+            }
+          },
+          fail: () => {},
+          complete: () => {}
+        });
+
       } else {
         _this.setData({
           babyList: resData,
@@ -118,7 +157,7 @@ Page({
   chooseBaby: function (e) {
     let _this = this
     _this.setData({
-      showLoad:1,
+      showLoad: 1,
       index: e.detail.value,
       baby_id: _this.data.babyList[e.detail.value].id,
       inject_position_id: _this.data.babyList[e.detail.value].inject_position_id
@@ -134,7 +173,14 @@ Page({
     //   _this.setData({
     //     vacList:resData
     //   })
-
+    App._post_form_ice("injectposition/positionInfo", {
+      id: _this.data.inject_position_id
+    }, result => {
+      console.log(result)
+      _this.setData({
+        inj_p_name: result.data.name
+      })
+    })
 
     App._post_form('baby/getBabyVaccineInfo', {
       data: _data
@@ -147,7 +193,7 @@ Page({
         vacList: resData.vaccine_list,
         v_id_text: v_id_text,
         nextInjDate: resData.vaccine_date,
-        showLoad:false
+        showLoad: false
       })
 
       console.log(v_id_text)
@@ -160,6 +206,17 @@ Page({
       // }
     })
 
+  },
+  /**
+   * 跳转选择接种点页面
+   */
+  jumpChooseInjectposition: function () {
+    wx.navigateTo({
+      url: '../baby/chooseInjectposition',
+      success: (result) => {
+
+      },
+    });
   },
   /**
    * 点击显示(隐藏)疫苗简介
@@ -195,6 +252,10 @@ Page({
    */
   submitData: function () {
     let _this = this;
+    if (!_this.validation(_this.data)) {
+      App.showError(_this.data.error);
+      return false
+    }
     var _data = App.encrypt(JSON.stringify({
       b_id: _this.data.baby_id,
       v_id: _this.data.v_id_text,
@@ -205,6 +266,25 @@ Page({
     App._post_form("vaccine/vaccineAppointment", {
       data: _data
     }, res => {
+      if (res.code !== 200) {
+        wx.showModal({
+          title: '提示',
+          content: res.msg,
+          showCancel: false,
+          confirmText: '确定',
+          confirmColor: '#3CC51F',
+          success: (result) => {
+            if (result.confirm) {
+
+            }
+          },
+        });
+      }
+      if (res.code === 200) {
+        wx.redirectTo({
+          url: 'appointmentSuccess',
+        });
+      }
       console.log(res)
     })
   },
@@ -221,5 +301,20 @@ Page({
       }
     }
     return v_id_text
-  }
+  },
+  /**
+   * 表单验证
+   */
+  validation: function (v) {
+    if (v.bDate === null || v.eDate === null) {
+      this.data.error = '请选择您的预约开始和结束日期';
+      return false;
+    }
+    if (v.bDate > v.eDate) {
+      this.data.error = '预约开始日期不可大于结束日期';
+      return false;
+    }
+
+    return true;
+  },
 })

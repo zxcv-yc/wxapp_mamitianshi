@@ -10,7 +10,12 @@
     "pages/baby/babyList",
     "pages/baby/chooseInjectposition",
     "pages/baby/editBaby",
-    "pages/appointment/beginAppointment"
+    "pages/appointment/beginAppointment",
+    "pages/appointment/appointmentList",
+    "pages/appointment/appointmentInfo",
+    "pages/appointment/appointmentSuccess",
+    "pages/login/login"
+  
   ],
   "window": {
     "backgroundTextStyle": "light",

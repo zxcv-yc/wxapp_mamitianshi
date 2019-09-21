@@ -7,40 +7,71 @@ Page({
    * 页面的初始数据
    */
   data: {
-    showLoad: 1, //初始化显示加载动态图
+    showLoad: false, //初始化显示加载动态图
     for_index: 0,
     TabCur: 0,
     scrollLeft: 0,
     cardCur: 0,
     DotStyle: 1, //轮播限高
-    aaa: {
-      0: {
-        "baby_name": '111',
-        'ym': {
-          0: {
-            "ym_name": '222',
-            'id': 1
-          },
-          1: {
-            "ym_name": '333',
-            'id': 2
-          }
-        }
+    ColorList: [{
+        title: '森绿',
+        name: 'green',
+        color: '#39b54a'
       },
-      1: {
-        "baby_name": '112',
-        'ym': {
-          0: {
-            "ym_name": '223',
-            'id': 3
-          },
-          1: {
-            "ym_name": '334',
-            'id': 4
-          }
-        }
+      {
+        title: '桔橙',
+        name: 'orange',
+        color: '#f37b1d'
       },
-    },
+      {
+        title: '海蓝',
+        name: 'blue',
+        color: '#0081ff'
+      }, {
+        title: '明黄',
+        name: 'yellow',
+        color: '#fbbd08'
+      },
+      {
+        title: '橄榄',
+        name: 'olive',
+        color: '#8dc63f'
+      },
+
+
+      {
+        title: '天青',
+        name: 'cyan',
+        color: '#1cbbb4'
+      },
+
+      {
+        title: '姹紫',
+        name: 'purple',
+        color: '#6739b6'
+      },
+      {
+        title: '嫣红',
+        name: 'red',
+        color: '#e54d42'
+      },
+      {
+        title: '木槿',
+        name: 'mauve',
+        color: '#9c26b0'
+      },
+      {
+        title: '桃粉',
+        name: 'pink',
+        color: '#e03997'
+      },
+      {
+        title: '棕褐',
+        name: 'brown',
+        color: '#a5673f'
+      },
+
+    ],
     swiperList: [{
       id: 0,
       type: 'image',
@@ -146,17 +177,7 @@ Page({
     //   this.setData(result.data);
     // });
   },
-  /**
-   * Tab
-   */
-  tabSelect(e) {
-    console.log(e)
-    this.setData({
-      TabCur: e.currentTarget.dataset.id,
-      for_index: e.currentTarget.dataset.id,
-      scrollLeft: (e.currentTarget.dataset.id - 1) * 60
-    })
-  },
+
 
   // /**
   //  * 获取宝宝列表
@@ -178,29 +199,43 @@ Page({
     let _this = this
     App._post_form("baby/indexBabyInfo", {}, result => {
       var resultData = JSON.parse(App.decrypt(result.data))
-      // var resData = App.decrypt(res.data)
+      resultData.sort(function (a, b) {
+        return b['next_inject_date'] < a['next_inject_date'] ? 1 : -1
+      })
       console.log(resultData)
-      // _this.qwer(resData)
-      // console.log("qwer ...")
       _this.setData({
-        defaultBaby: resultData.baby_info,
-        defaultBabyId:resultData.baby_info.id,
+        babyVacInfo: resultData
       })
-      var indexAndDate = _this.findVacDate(resultData.remind_days)
-      var _week = resultData.vaccine_days[indexAndDate.index]
 
-      App._post_form("vaccine/getWeekVaccineInfo", {
-        week: _week
-      }, res => {
-        console.log(res)
-        _this.setData({
-          injList: res.data,
-          injDate: indexAndDate.date,
-          showLoad: false
-        })
-      })
     })
   },
+  // getIndexBabyInfo: function () {
+  //   let _this = this
+  //   App._post_form("baby/indexBabyInfo", {}, result => {
+  //     var resultData = JSON.parse(App.decrypt(result.data))
+  //     // var resData = App.decrypt(res.data)
+  //     console.log(resultData)
+  //     // _this.qwer(resData)
+  //     // console.log("qwer ...")
+  //     _this.setData({
+  //       defaultBaby: resultData.baby_info,
+  //       defaultBabyId:resultData.baby_info.id,
+  //     })
+  //     var indexAndDate = _this.findVacDate(resultData.remind_days)
+  //     var _week = resultData.vaccine_days[indexAndDate.index]
+
+  //     App._post_form("vaccine/getWeekVaccineInfo", {
+  //       week: _week
+  //     }, res => {
+  //       console.log(res)
+  //       _this.setData({
+  //         injList: res.data,
+  //         injDate: indexAndDate.date,
+  //         showLoad: false
+  //       })
+  //     })
+  //   })
+  // },
 
   /**
    * 跳转预约页面
@@ -209,7 +244,7 @@ Page({
     console.log(e)
     // return
     wx.navigateTo({
-      url: '../appointment/beginAppointment?baby_id='+this.data.defaultBabyId+'&ym_id='+e.currentTarget.dataset.id,
+      url: '../appointment/beginAppointment?baby_id=' + this.data.defaultBabyId + '&ym_id=' + e.currentTarget.dataset.id,
     });
   },
   /**
@@ -226,6 +261,8 @@ Page({
       }
     }
   },
-
+  dateToTime: function (str) {
+    return (new Date(str.replace(/-/g, '/'))).getTime(); //用/替换日期中的-是为了解决Safari的兼容
+  },
 
 })

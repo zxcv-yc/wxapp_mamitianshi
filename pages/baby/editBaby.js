@@ -18,7 +18,9 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    this.getBabyInfo(App.encrypt(JSON.stringify({baby_id:options.id})))
+    this.getBabyInfo(App.encrypt(JSON.stringify({
+      baby_id: options.id
+    })))
   },
 
   /**
@@ -100,7 +102,7 @@ Page({
         birthDate: resData.baby_birth_date
       })
       App._post_form_ice('injectposition/positionInfo', {
-        id:resData.inject_position_id
+        id: resData.inject_position_id
       }, result => {
         _this.setData({
           vac_place: result.data.name,
@@ -143,22 +145,24 @@ Page({
       App.showError(this.data.error);
       return false
     }
-     values = App.encrypt(JSON.stringify(values))
-    App._post_form('baby/editBabyInfo', {data:values}, res => {
-      if( res.code === 200){
+    values = App.encrypt(JSON.stringify(values))
+    App._post_form('baby/editBabyInfo', {
+      data: values
+    }, res => {
+      if (res.code === 200) {
         wx.showToast({
           title: '修改成功',
           icon: 'success',
           duration: 1500,
           mask: true,
           success: res => {
-              setTimeout(function() {
-                  wx.navigateBack({
-                      delta:1
-                  })
-                }, 1500);
+            setTimeout(function () {
+              wx.navigateBack({
+                delta: 1
+              })
+            }, 1500);
           }
-      });
+        });
       }
     })
   },

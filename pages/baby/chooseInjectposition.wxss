@@ -1,4 +1,7 @@
 /* pages/baby/chooseInjectposition.wxss */
+page{
+    padding-bottom: 160rpx;
+}
 .item_box {
     width: 90%;
     margin: 0 auto;

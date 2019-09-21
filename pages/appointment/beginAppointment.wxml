@@ -28,6 +28,8 @@
                 <view class="sex">性别：{{babyList[index].baby_sex === 1?'男':'女'}}</view>
             </view>
             <view class="birth">出生日期：{{babyList[index].baby_birth_date}}</view>
+            <view class="birth">接种点：{{inj_p_name}}</view>
+            <view class="inj_p_btn " bind:tap="jumpChooseInjectposition">点击重新选择接种点</view>
         </view>
     </view>
     <view class="inj_content margin-top shadow-warp bg-white">

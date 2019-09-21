@@ -41,7 +41,7 @@
         </view>
     </view>
     <navigator class="" target="" url="addBaby" hover-class="none" open-type="navigate">
-        <button class="addBtn shadow shadow-lg bg-green" hover-class="none" hover-stop-propagation="false">
+        <button class="addBtn shadow  bg-green" hover-class="none" hover-stop-propagation="false">
             添加
         </button>
     </navigator>
@@ -52,7 +52,7 @@
     </view>
     <view class="_text" hover-class="none" hover-stop-propagation="false">您还没有添加宝宝信息，点击去添加～</view>
     <navigator class="" target="" url="addBaby" hover-class="none" open-type="navigate">
-        <view class="addBtn elseBtn shadow shadow-lg bg-green" hover-class="none" hover-stop-propagation="false">
+        <view class="addBtn elseBtn shadow  bg-green" hover-class="none" hover-stop-propagation="false">
             添加
         </view>
     </navigator>
