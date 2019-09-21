@@ -57,7 +57,11 @@
         </view>
     </navigator>
 </view>
-<view class="black_bolck" wx:if="{{showLoad}}"></view>
+<!-- <view class="black_bolck" wx:if="{{showLoad}}"></view>
 <view class="loading_img" wx:if="{{showLoad}}">
     <image src='https://image.weilanwl.com/gif/loading-white.gif' class='gif-black response' mode='aspectFit'></image>
+</view> -->
+<view class="black_bolck" wx:if="{{showLoad}}"></view>
+<view class="loading_img" wx:if="{{showLoad}}">
+    <image src='../../images/loading1.gif' class='gif-black response' mode='widthFix'></image>
 </view>

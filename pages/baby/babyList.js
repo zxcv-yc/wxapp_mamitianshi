@@ -165,7 +165,7 @@ Page({
             } else {
                 _this.setData({
                     babyList: resData,
-                    showLoad: false
+                    // showLoad: false
                 })
             }
 

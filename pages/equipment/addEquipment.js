@@ -79,7 +79,7 @@ Page({
     that.toastTitle = '检查蓝牙状态'
     wx.getBluetoothAdapterState({
         success: function(res) {
-           _this.startBluetoothDevicesDiscovery()
+          that.startBluetoothDevicesDiscovery()
         },
         fail(res) {
             console.log(res)
@@ -98,5 +98,37 @@ startBluetoothDevicesDiscovery:function() {
           }
       })
   }, 1000)
-}
+},
+getBluetoothDevices:function() {
+  var that = this;
+  setTimeout(() => {
+      wx.getBluetoothDevices({
+          services: [],
+          allowDuplicatesKey: false,
+          interval: 0,
+          success: function(res) {
+            console.log(res)
+            return
+              if (res.devices.length > 0) {
+                  if (JSON.stringify(res.devices).indexOf(that.deviceName) !== -1) {
+                      for (let i = 0; i < res.devices.length; i++) {
+                          if (that.deviceName === res.devices[i].name) {
+                              /* 根据指定的蓝牙设备名称匹配到deviceId */
+                              that.deviceId = that.devices[i].deviceId;
+                              setTimeout(() => {
+                                  that.connectTO();
+                              }, 2000);
+                          };
+                      };
+                  } else {
+                  }
+              } else {
+              }
+          },
+          fail(res) {
+              console.log(res, '获取蓝牙设备列表失败=====')
+          }
+      })
+  }, 2000)
+},
 })
