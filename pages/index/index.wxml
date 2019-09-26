@@ -40,16 +40,17 @@
             <text class="text-bold text-{{ColorList[i].name}}">{{item.baby_name}}</text>
         </view>
     </view>
-    <view class=" padding-xs text-bold text-{{ColorList[i].name}} text-xl">{{item.next_inject_date}}</view>
-    <view wx:for="{{item.vaccine_list}}" wx:for-item="vac_item" wx:key >
+    <view class=" padding-xs text-bold text-{{ColorList[i].name}} text-xl">
+        {{item.next_inject_date}}
+    </view>
+    <view wx:for="{{item.vaccine_list}}" wx:for-item="vac_item" wx:key>
         <view class="" style="line-height:60rpx;">{{vac_item.zh_name_full}}</view>
     </view>
-   
-   <view>
-       <button class="cu-btn round line-{{ColorList[i].name}} shadow margin-top" bind:tap="jumpAppointment" >立即预约</button>
-   </view>
-     
-      
+    <view>
+        <button class="cu-btn round line-{{ColorList[i].name}} shadow margin-top" bind:tap="jumpAppointment">
+            立即预约
+        </button>
+    </view>
 </view>
 <!-- <view class="list_box  bg-white shadow-warp " hover-class="none" wx:for="{{babyVacInfo}}" wx:for-item="item" wx:key wx:if="{{babyVacInfo}}" wx:for-index="i">
     <view class="cu-bar bg-white solid-bottom">
