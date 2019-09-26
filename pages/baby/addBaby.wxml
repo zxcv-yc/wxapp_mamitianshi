@@ -20,7 +20,7 @@
     </view>
     <view class="cu-form-group margin-top solid-bottom">
         <view class="title">出生日期</view>
-        <picker mode="date" value="{{birthDate}}" start="2009-09-01" end="2020-09-01" bindchange="birthDateChange"  name="baby_birth_date">
+        <picker mode="date" value="{{birthDate}}" start="2000-01-01" end="{{today}}" bindchange="birthDateChange"  name="baby_birth_date">
             <view class="picker">{{birthDate}}</view>
         </picker>
     </view>

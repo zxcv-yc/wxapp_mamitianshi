@@ -95,62 +95,62 @@ Page({
     /**
      * 生命周期函数--监听页面加载
      */
-    onLoad: function (options) {
+    onLoad: function(options) {
 
     },
 
     /**
      * 生命周期函数--监听页面初次渲染完成
      */
-    onReady: function () {
+    onReady: function() {
 
     },
 
     /**
      * 生命周期函数--监听页面显示
      */
-    onShow: function () {
+    onShow: function() {
         this.getBabyList()
     },
 
     /**
      * 生命周期函数--监听页面隐藏
      */
-    onHide: function () {
+    onHide: function() {
 
     },
 
     /**
      * 生命周期函数--监听页面卸载
      */
-    onUnload: function () {
+    onUnload: function() {
 
     },
 
     /**
      * 页面相关事件处理函数--监听用户下拉动作
      */
-    onPullDownRefresh: function () {
+    onPullDownRefresh: function() {
 
     },
 
     /**
      * 页面上拉触底事件的处理函数
      */
-    onReachBottom: function () {
+    onReachBottom: function() {
 
     },
 
     /**
      * 用户点击右上角分享
      */
-    onShareAppMessage: function () {
+    onShareAppMessage: function() {
 
     },
     /**
      * 获取宝宝列表
      */
-    getBabyList: function () {
+    getBabyList: function() {
         let _this = this
         App._post_form("baby/getBabyList", {}, res => {
             console.log(res)
@@ -165,7 +165,7 @@ Page({
             } else {
                 _this.setData({
                     babyList: resData,
-                    // showLoad: false
+                    showLoad: false
                 })
             }
 
@@ -174,7 +174,7 @@ Page({
     /**
      * 编辑宝宝信息
      */
-    editBaby: function (e) {
+    editBaby: function(e) {
         console.log(e)
         wx.navigateTo({
             url: 'editBaby?id=' + e.target.dataset.id,
@@ -182,9 +182,17 @@ Page({
 
     },
     /**
+     * 接种
+     */
+    beginAppointment: function(e) {
+        wx.navigateTo({
+            url: '../appointment/beginAppointment?baby_id=' + e.currentTarget.dataset.id,
+        });
+    },
+    /**
      * 删除宝宝
      */
-    deleteBaby: function (e) {
+    deleteBaby: function(e) {
         let _this = this
         wx.showModal({
             title: '确定操作',
@@ -211,7 +219,7 @@ Page({
                                 duration: 1500,
                                 mask: false,
                                 success: (result) => {
-                                    setTimeout(function () {
+                                    setTimeout(function() {
                                         _this.getBabyList()
                                     }, 1500);
                                 },
@@ -228,7 +236,7 @@ Page({
     /**
      * 修改默认
      */
-    changeIsDefault: function (e) {
+    changeIsDefault: function(e) {
         let _this = this
         console.log(e)
         console.log(App.decrypt('rMMOI+LlKlSYFSFV+6vzlg=='))

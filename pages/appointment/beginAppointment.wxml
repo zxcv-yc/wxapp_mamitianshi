@@ -9,8 +9,9 @@
             <text class="cuIcon-clothesfill text-pink"></text>
             选择宝宝
         </view>
-        <picker bindchange="chooseBaby" value="{{index}}" range="{{babyList}}" range-key="baby_name">
-            <view class="picker">{{index?babyList[index].baby_name:'请选择'}}</view>
+        <picker bindchange="chooseBaby" value="{{index}}" range="{{babyList}}" range-key="baby_name" class="babyPicker">
+            <!-- <view class="picker">{{babyList[index].baby_name}}</view> -->
+            <view class="picker">{{index===null?'请选择':babyList[index].baby_name}}</view>
         </picker>
     </view>
 </form>
