@@ -263,5 +263,10 @@ Page({
             }
         }
     },
+  launchAppError(e) {
+    console.log(e.detail.errMsg)
+  }
+
+
 
 })

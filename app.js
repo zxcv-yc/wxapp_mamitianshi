@@ -15,15 +15,15 @@ App({
   access_token: null,
   siteInfo: require('siteinfo.js'),
 
-  onLaunch: function () {
+  onLaunch: function(e) {
     this.getSystemInformation();
     this.setYMD();
     this.createAccessToken();
     this.setApiRoot()
-
+    console.log(e)
   },
   // 加密
-  encrypt: function (data) {
+  encrypt: function(data) {
     //十六位十六进制数作为秘钥
     var aeskey = aes.CryptoJS.enc.Utf8.parse(this.aes_key);
     //十六位十六进制数作为秘钥偏移量
@@ -53,15 +53,15 @@ App({
     var decryptedStr = decrypt.toString(aes.CryptoJS.enc.Utf8);
     return decryptedStr.toString();
   },
-  
+
   /**
    * 获取系统信息
    */
-  getSystemInformation: function () {
+  getSystemInformation: function() {
     let _this = this
     // 获取系统状态栏信息
     wx.getSystemInfo({
-      success: function (e) {
+      success: function(e) {
         _this.globalData.StatusBar = e.statusBarHeight;
         let custom = wx.getMenuButtonBoundingClientRect();
         // console.log(custom)
@@ -75,7 +75,7 @@ App({
   /**
    * 设置当前年月日
    */
-  setYMD: function () {
+  setYMD: function() {
     var date = new Date(Date.parse(new Date()));
     //获取年份  
     this.year = date.getFullYear();
@@ -87,7 +87,7 @@ App({
   /**
    * 创建access_token
    */
-  createAccessToken: function () {
+  createAccessToken: function() {
     var access_token = null;
     let api_key = 'l2V|gfZp{8`;jzR~6Y1_FWlzdf';
     const md5_Obj = require('./utils/hex_md5.js');
@@ -97,7 +97,7 @@ App({
   /**
    * 设置api地址
    */
-  setApiRoot: function () {
+  setApiRoot: function() {
     // this.api_root = this.siteInfo.siteroot + 'index.php?s=/api/';
     this.api_root = this.siteInfo.siteroot + 'api.php/';
     this.upload_root = this.siteInfo.uploadroot + 'api.php/';
@@ -106,11 +106,11 @@ App({
   /**
    * post提交
    */
-  _post_form: function (url, data, success, fail, complete) {
+  _post_form: function(url, data, success, fail, complete) {
     wx.showNavigationBarLoading();
     let App = this;
     data.wxapp_id = App.siteInfo.uniacid;
-      // console.log(data)
+    // console.log(data)
     data.user_token = App.getGlobalData('user_token'),
       wx.request({
         url: App.api_root + url,
@@ -120,7 +120,7 @@ App({
         },
         method: 'POST',
         data: data,
-        success: function (res) {
+        success: function(res) {
 
           if (res.statusCode !== 200 || typeof res.data !== 'object') {
             App.showError('网络请求出错');
@@ -132,25 +132,25 @@ App({
           // }
           if (res.data.code === -1) {
             // 登录态失效, 重新登录
-            App.doLogin(function () {
+            App.doLogin(function() {
               App._post_form(url, data, success, fail);
             });
             return false;
           } else if (res.data.code === 0) {
-            App.showError(res.data.msg, function () {
+            App.showError(res.data.msg, function() {
               fail && fail(res);
             });
             return false;
           }
           success && success(res.data);
         },
-        fail: function (res) {
+        fail: function(res) {
           // console.log(res);
-          App.showError(res.errMsg, function () {
+          App.showError(res.errMsg, function() {
             fail && fail(res);
           });
         },
-        complete: function (res) {
+        complete: function(res) {
           wx.hideLoading();
           wx.hideNavigationBarLoading();
           complete && complete(res);
@@ -161,7 +161,7 @@ App({
   /**
    * 冰箱post提交
    */
-  _post_form_ice: function (url, data, success, fail, complete) {
+  _post_form_ice: function(url, data, success, fail, complete) {
     wx.showNavigationBarLoading();
     let App = this;
     wx.request({
@@ -173,26 +173,26 @@ App({
 
       method: 'POST',
       data: data,
-      success: function (res) {
+      success: function(res) {
         if (res.statusCode !== 200 || typeof res.data !== 'object') {
           App.showError('网络请求出错');
           return false;
         }
         if (res.data.code === 0) {
-          App.showError(res.data.msg, function () {
+          App.showError(res.data.msg, function() {
             fail && fail(res);
           });
           return false;
         }
         success && success(res.data);
       },
-      fail: function (res) {
+      fail: function(res) {
         // console.log(res);
-        App.showError(res.errMsg, function () {
+        App.showError(res.errMsg, function() {
           fail && fail(res);
         });
       },
-      complete: function (res) {
+      complete: function(res) {
         wx.hideLoading();
         wx.hideNavigationBarLoading();
         complete && complete(res);
@@ -202,7 +202,7 @@ App({
   /**
    * get请求
    */
-  _get: function (url, data, success, fail, complete, check_login) {
+  _get: function(url, data, success, fail, complete, check_login) {
     wx.showNavigationBarLoading();
     let App = this;
     // 构造请求参数
@@ -213,7 +213,7 @@ App({
     //   check_login = true;
 
     // 构造get请求
-    let request = function () {
+    let request = function() {
       // data.token = wx.getStorageSync('token');
       data.user_token = App.getGlobalData('user_token'),
         wx.request({
@@ -223,7 +223,7 @@ App({
             'access_token': App.access_token,
           },
           data: data,
-          success: function (res) {
+          success: function(res) {
             // console.log(res);
             if (res.statusCode !== 200 || typeof res.data !== 'object') {
               App.showError('网络请求出错');
@@ -244,13 +244,13 @@ App({
               success && success(res.data);
             }
           },
-          fail: function (res) {
+          fail: function(res) {
             // console.log(res);
-            App.showError(res.errMsg, function () {
+            App.showError(res.errMsg, function() {
               fail && fail(res);
             });
           },
-          complete: function (res) {
+          complete: function(res) {
             wx.hideNavigationBarLoading();
             complete && complete(res);
           },
@@ -262,7 +262,7 @@ App({
   /**
    * 执行用户登录
    */
-  doLogin: function () {
+  doLogin: function() {
     // 保存当前页面
     let pages = getCurrentPages();
     if (pages.length) {
@@ -278,7 +278,7 @@ App({
   /**
    * 判断是否登录
    */
-  isLogin: function () {
+  isLogin: function() {
     if (wx.getStorageSync('user_token') === '' || wx.getStorageSync('user_token') === null) {
       return false;
     } else {
@@ -288,12 +288,12 @@ App({
   /**
    * 显示失败提示框
    */
-  showError: function (msg, callback) {
+  showError: function(msg, callback) {
     wx.showModal({
       title: '友情提示',
       content: msg,
       showCancel: false,
-      success: function (res) {
+      success: function(res) {
         // callback && (setTimeout(function() {
         //   callback();
         // }, 1500));
@@ -304,7 +304,7 @@ App({
   /**
    * 返回一页
    */
-  navigateBack: function () {
+  navigateBack: function() {
     wx.navigateBack({
       delta: 1
     })
@@ -312,7 +312,7 @@ App({
   /**
    * 获取 App.globalData数据
    */
-  getGlobalData: function (param) {
+  getGlobalData: function(param) {
     return wx.getStorageSync(param);
   },
 
