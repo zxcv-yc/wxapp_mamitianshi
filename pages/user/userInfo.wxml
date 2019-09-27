@@ -29,7 +29,7 @@
     </view>
     <view class="cu-form-group margin-top solid-bottom">
         <view class="title">证件期限</view>
-        <picker mode="date" value="{{bDate}}" start="2015-09-01" end="2020-09-01" bindchange="beginDateChange" name="id_card_begintime">
+        <picker mode="date" value="{{bDate}}" start="2000-01-01" end="{{today}}" bindchange="beginDateChange" name="id_card_begintime">
             <view class="picker">{{bDate}}</view>
         </picker>
         <view class="cu-capsule radius">
@@ -38,12 +38,13 @@
     </view>
     <view class="cu-form-group margin-top solid-bottom">
         <view class="title">证件期限</view>
-        <picker mode="date" value="{{eDate}}" start="2015-09-01" end="2020-09-01" bindchange="endDateChange" name="id_card_endtime">
+        <picker mode="date" value="{{eDate}}" start="{{today}}" end="2040-09-01" bindchange="endDateChange" name="id_card_endtime">
             <view class="picker">{{eDate}}</view>
         </picker>
         <view class="cu-capsule radius">
             <view class="cu-tag bg-red biaoqian">截止日期</view>
         </view>
+        
     </view>
     <view class="cu-form-group margin-top solid-bottom">
         <view class="title">所在地区</view>

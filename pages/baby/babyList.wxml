@@ -20,7 +20,7 @@
             <view class="content_birth">生日：{{item.baby_birth_date}}</view>
         </view>
         <view class="listButton">
-            <view class="injBtn text-Abc cu-btn line-green round" data-id="{{item.id}}" bind:tap="deleteBaby">
+            <view class="injBtn text-Abc cu-btn line-green round" data-id="{{item.id}}" bind:tap="beginAppointment">
                 接种
             </view>
             <view class="editBtn  text-Abc cu-btn line-blue round" data-id="{{item.id}}" bind:tap="editBaby">

@@ -53,6 +53,7 @@ App({
     var decryptedStr = decrypt.toString(aes.CryptoJS.enc.Utf8);
     return decryptedStr.toString();
   },
+  
   /**
    * 获取系统信息
    */
@@ -109,8 +110,8 @@ App({
     wx.showNavigationBarLoading();
     let App = this;
     data.wxapp_id = App.siteInfo.uniacid;
-    data.user_token = App.getGlobalData('user_token'),
       // console.log(data)
+    data.user_token = App.getGlobalData('user_token'),
       wx.request({
         url: App.api_root + url,
         header: {
