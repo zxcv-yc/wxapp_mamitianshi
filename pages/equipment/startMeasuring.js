@@ -54,7 +54,6 @@ Page({
                             }, 1000)
                         },
                         fail: (e) => {
-
                             wx.showModal({
                                 title: '提示',
                                 content: '请开启手机蓝牙后重新进入此页面',
