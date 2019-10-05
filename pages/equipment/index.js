@@ -5,7 +5,7 @@ Page({
    * 页面的初始数据
    */
   data: {
-    have: false, //有无蓝牙连接设备
+    have: 1, //有无蓝牙连接设备
   },
 
   /**
@@ -64,11 +64,11 @@ Page({
 
   },
   /**
-   * 点击跳转添加设备页面
+   * 点击跳转开始测量体温
    */
-  addEquipment: function () {
+  startMeasuring: function () {
     wx.navigateTo({
-      url: 'addEquipment',
+      url: 'startMeasuring',
     });
   },
   /**

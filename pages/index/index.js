@@ -109,8 +109,7 @@ Page({
      */
     onLoad: function(options) {
         // console.log(App.year + '-' + App.month + '-' + App.day);
-        var aa = new Date()
-        console.log(aa)
+       
     },
 
     /**
@@ -162,6 +161,8 @@ Page({
     onShareAppMessage: function() {
 
     },
+  
+  
     /**
      * 判断用户登录
      */

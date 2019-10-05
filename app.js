@@ -165,7 +165,7 @@ App({
     wx.showNavigationBarLoading();
     let App = this;
     wx.request({
-      url: "http://192.168.0.99:8088/api.php/" + url,
+      url: "http://192.168.0.99:8088/" + url,
       header: {
         'content-type': 'application/x-www-form-urlencoded',
         'accesstoken': App.access_token,

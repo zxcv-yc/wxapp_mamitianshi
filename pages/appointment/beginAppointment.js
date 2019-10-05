@@ -1,5 +1,5 @@
 // pages/appointment/beginAppointment.js
-var WxParse = require('../../wxParse/wxParse.js');
+// var WxParse = require('../../wxParse/wxParse.js');
 var utilsDate = require("../../utils/utilsDate.js")
 let App = getApp();
 
@@ -23,7 +23,7 @@ Page({
     /**
      * 生命周期函数--监听页面加载
      */
-    onLoad: function(options) {
+    onLoad: function (options) {
         console.log(options);
         if (options.baby_id) {
             this.getBabyListA(parseInt(options.baby_id))
@@ -49,14 +49,14 @@ Page({
     /**
      * 生命周期函数--监听页面初次渲染完成
      */
-    onReady: function() {
+    onReady: function () {
 
     },
 
     /**
      * 生命周期函数--监听页面显示
      */
-    onShow: function() {
+    onShow: function () {
 
         wx.getStorage({
             key: 'inj_id_name',
@@ -81,41 +81,41 @@ Page({
     /**
      * 生命周期函数--监听页面隐藏
      */
-    onHide: function() {
+    onHide: function () {
 
     },
 
     /**
      * 生命周期函数--监听页面卸载
      */
-    onUnload: function() {
+    onUnload: function () {
 
     },
 
     /**
      * 页面相关事件处理函数--监听用户下拉动作
      */
-    onPullDownRefresh: function() {
+    onPullDownRefresh: function () {
 
     },
 
     /**
      * 页面上拉触底事件的处理函数
      */
-    onReachBottom: function() {
+    onReachBottom: function () {
 
     },
 
     /**
      * 用户点击右上角分享
      */
-    onShareAppMessage: function() {
+    onShareAppMessage: function () {
 
     },
     /**
      * 获取宝宝列表（指定baby情况）
      */
-    getBabyListA: function(baby_id) {
+    getBabyListA: function (baby_id) {
         let _this = this
         App._post_form("baby/getBabyList", {}, res => {
             var resData = JSON.parse(App.decrypt(res.data))
@@ -169,7 +169,7 @@ Page({
     /**
      * 获取宝宝列表
      */
-    getBabyList: function() {
+    getBabyList: function () {
         let _this = this
         App._post_form("baby/getBabyList", {}, res => {
             console.log(res)
@@ -196,26 +196,23 @@ Page({
                             wx.navigateBack({
                                 delta: 1
                             });
-
                         }
                     },
                     fail: () => {},
                     complete: () => {}
                 });
-
             } else {
                 _this.setData({
                     babyList: resData,
                     showLoad: false
                 })
             }
-
         })
     },
     /**
      * 选择baby
      */
-    chooseBaby: function(e) {
+    chooseBaby: function (e) {
         let _this = this
         _this.setData({
             showLoad: 1,
@@ -258,20 +255,20 @@ Page({
             })
 
             console.log(v_id_text)
-                // for (var i = 0; i < resData.length; i++) {
-                //   console.log(i)
-                //   WxParse.wxParse('vacText' + i, 'html', resData[i].vaccine_text, _this);
-                //   if (i === resData.length - 1) {
-                //     WxParse.wxParseTemArray("vacTextArr", 'vacText', resData.length, _this)
-                //   }
-                // }
+            // for (var i = 0; i < resData.length; i++) {
+            //   console.log(i)
+            //   WxParse.wxParse('vacText' + i, 'html', resData[i].vaccine_text, _this);
+            //   if (i === resData.length - 1) {
+            //     WxParse.wxParseTemArray("vacTextArr", 'vacText', resData.length, _this)
+            //   }
+            // }
         })
 
     },
     /**
      * 跳转选择接种点页面
      */
-    jumpChooseInjectposition: function() {
+    jumpChooseInjectposition: function () {
         wx.navigateTo({
             url: '../baby/chooseInjectposition',
             success: (result) => {
@@ -282,12 +279,12 @@ Page({
     /**
      * 点击显示(隐藏)疫苗简介
      */
-    showVacModal: function() {
+    showVacModal: function () {
         this.setData({
             show: 1
         })
     },
-    hideModal: function() {
+    hideModal: function () {
         this.setData({
             show: false
         })
@@ -311,7 +308,7 @@ Page({
     /**
      * 提交数据
      */
-    submitData: function() {
+    submitData: function () {
         let _this = this;
         if (!_this.validation(_this.data)) {
             App.showError(_this.data.error);
@@ -352,7 +349,7 @@ Page({
     /**
      * 遍历取出所有v_id,拼接成字符串
      */
-    getVIdText: function(data) {
+    getVIdText: function (data) {
         var v_id_text = ''
         for (var i = 0; i < data.length; i++) {
             if (i === 0) {
@@ -366,7 +363,7 @@ Page({
     /**
      * 表单验证
      */
-    validation: function(v) {
+    validation: function (v) {
         if (v.bDate === null || v.eDate === null) {
             this.data.error = '请选择您的预约开始和结束日期';
             return false;
