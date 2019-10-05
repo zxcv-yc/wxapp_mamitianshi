@@ -9,14 +9,19 @@
                 <view class="action">
                     <text class="cuIcon-title text-{{colorList[idx].name}}"></text>
                     <text>
-                        <text class="cu-tag bg-green light radius sm" wx:if="{{item.is_default}}">默认</text>
-                        <text>      {{item.baby_name}}</text>
+                        <text class="cu-tag bg-green light radius sm" wx:if="{{item.is_default}}">
+                            <text>默认</text>
+                        </text>
+                        <text>{{item.baby_name}}</text>
                     </text>
                 </view>
             </view>
         </view>
         <view class="listContent">
-            <view class="content_sex">性别：{{item.baby_sex === 1?'男':'女'}}</view>
+            <view class="content_sex">
+                性别：{{item.baby_sex === 1?'男':'女'}}
+                <text class="{{item.baby_sex===1?'cuIcon-male text-blue':'cuIcon-female text-pink'}} text-bold"></text>
+            </view>
             <view class="content_birth">生日：{{item.baby_birth_date}}</view>
         </view>
         <view class="listButton">
@@ -35,7 +40,7 @@
             <form>
                 <view class="cu-form-group">
                     <view class="title" style="font-size:24rpx;">设为默认</view>
-                    <switch bindchange="changeIsDefault"  data-id="{{item.id}}" data-name="{{item.name}}"></switch>
+                    <switch bindchange="changeIsDefault" data-id="{{item.id}}" data-name="{{item.name}}"></switch>
                 </view>
             </form>
         </view>
