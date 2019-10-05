@@ -1,0 +1,26 @@
+/* pages/equipment/startMeasuring.wxss */
+page{
+    background-color: #fff;
+}
+.big_box{
+    background-color: #fff;
+}
+.tem_box{
+    width: 260rpx;
+    height: 260rpx;
+    line-height: 260rpx;
+    font-size: 50rpx;
+    font-weight: 700;
+    color: #39b54a;
+    border-radius: 999px;
+    border: 12rpx solid #39b54a;
+    margin: 30rpx auto;
+    text-align: center
+
+}
+.tem_text{
+    color: #999;
+    font-size: 26rpx;
+    margin: 15rpx 0;
+    text-align: center;
+}

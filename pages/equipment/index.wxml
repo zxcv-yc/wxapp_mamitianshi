@@ -9,7 +9,7 @@
                 <text class="iconfont icon-lishi" style="font-size:38rpx;line-height: 80rpx;"></text>
                 <text class="btn_text">历史记录</text>
             </view>
-            <view class="btn_item" bindtap="startingTest">
+            <view class="btn_item" bindtap="startMeasuring">
                 <text class="iconfont icon-kaishishijian" style="font-size:40rpx;line-height: 80rpx;"></text>
                 <text class="btn_text">开始检测</text>
             </view>

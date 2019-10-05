@@ -1,0 +1,20 @@
+<cu-custom bgColor="bg-gradual-orange" isCustom="{{true}}">
+  <view slot="content">开始检测</view>
+  <view class="action" slot="right">
+    <view class="cu-load load-icon {{!isLoad?'loading':'over'}}"></view>
+  </view>
+</cu-custom>
+<view class="big_box">
+  <view class="cu-bar bg-white">
+    <view class="action">
+      <text class="cuIcon-titles text-green"></text>
+      <text class="text-xl text-bold">宝宝体温</text>
+    </view>
+  </view>
+  <view class="tem_box">{{temMsg}}</view>
+  <view class="text_box">
+    <view class="tem_text">请将奶嘴体温计放入宝宝口中</view>
+    <view class="tem_text">为保证体温数据准确，测量期间请勿将奶嘴拿出</view>
+    <view class="tem_text">当体温计发出"滴滴滴"的响声后测量体温完成</view>
+  </view>
+</view>
