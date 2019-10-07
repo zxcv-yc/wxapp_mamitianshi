@@ -1,3 +1,5 @@
+var App = getApp();
+
 Page({
 
     /**
@@ -9,72 +11,40 @@ Page({
         temMsg: '未连接',
         deviceName: "AET-WD",
         showLoad: null,
+        index: null, //宝宝picker索引
+        isLoad: false, //导航栏加载动画
+        connectMsg: '链接', //按钮文字
+        connectColor: 'green', //按钮颜色
     },
 
     /**
      * 生命周期函数--监听页面加载
      */
     onLoad: function(options) {
-        var aa = this.ab2str([68, 84, 56, 49, 51, 54, 54, 48, 48, 48, 48, 48, 48, 48])
-        var qwer = 4454383133333230303030303030
-        console.log(qwer.toString(16))
-        var bb = aa.substr(4, 4)
-        console.log(bb)
-        console.log(this.insert_flg(bb, '.', 2))
+        this.getBabyList()
+        var timestamp = parseInt(new Date().getTime() / 1000);
+        var dd = 1570414220
 
+        console.log(this.formatTime(timestamp, 'Y-M-D h:m:s'))
+        console.log(dd)
     },
 
     /**
      * 生命周期函数--监听页面初次渲染完成
      */
     onReady: function() {
-
+        wx.showToast({
+            title: '请先选择要测量体温的宝宝',
+            icon: 'none',
+            duration: 1500,
+            mask: false,
+        });
     },
 
     /**
      * 生命周期函数--监听页面显示
      */
     onShow: function() {
-        wx.showModal({
-            title: '提示',
-            content: '当前暂未连接蓝牙奶嘴体温计',
-            showCancel: true,
-            cancelText: '取消',
-            cancelColor: '#000000',
-            confirmText: '连接',
-            confirmColor: '#3CC51F',
-            success: (result) => {
-                if (result.confirm) {
-                    wx.openBluetoothAdapter({
-
-                        success: (result) => {
-                            console.log(result)
-                            setTimeout(() => {
-                                this.startBluetoothDevicesDiscovery()
-                            }, 1000)
-                        },
-                        fail: (e) => {
-                            wx.showModal({
-                                title: '提示',
-                                content: '请开启手机蓝牙后重新进入此页面',
-                                showCancel: false,
-                                confirmText: '确定',
-                                confirmColor: '#3CC51F',
-                                success: (result) => {
-
-                                    if (result.confirm) { //确定
-                                        wx.navigateBack({ //点击确定与取消都会执行
-                                            delta: 1
-                                        });
-                                    }
-                                },
-                            });
-                        },
-                        complete: () => {}
-                    });
-                }
-            },
-        });
 
     },
 
@@ -113,9 +83,77 @@ Page({
 
     },
     /**
+     * 获取宝宝列表
+     */
+    getBabyList: function() {
+        let _this = this
+        App._post_form("baby/getBabyList", {}, res => {
+            console.log(res)
+            var resData = JSON.parse(App.decrypt(res.data))
+            console.log(resData)
+            if (resData[0] == undefined) {
+                _this.setData({
+                    showLoad: false
+                })
+                wx.showModal({
+                    title: '提示',
+                    content: '您还没有添加您的宝宝信息',
+                    showCancel: true,
+                    cancelText: '取消',
+                    cancelColor: '#000000',
+                    confirmText: '去添加',
+                    confirmColor: '#3CC51F',
+                    success: (result) => {
+                        if (result.confirm) {
+                            wx.redirectTo({
+                                url: '../baby/addBaby',
+                            });
+                        } else if (result.cancel) {
+                            wx.navigateBack({
+                                delta: 1
+                            });
+                        }
+                    },
+                    fail: () => {},
+                    complete: () => {}
+                });
+            } else {
+                _this.setData({
+                    babyList: resData,
+                    showLoad: false
+                })
+            }
+        })
+    },
+    /**
+     * 
+     * 选择baby
+     */
+    chooseBaby: function(e) {
+        this.setData({
+            index: e.detail.value,
+            baby_id: this.data.babyList[e.detail.value].id,
+        })
+        wx.showModal({
+            title: '提示',
+            content: '当前暂未连接蓝牙奶嘴体温计',
+            showCancel: true,
+            cancelText: '取消',
+            cancelColor: '#000000',
+            confirmText: '连接',
+            confirmColor: '#3CC51F',
+            success: (result) => {
+                if (result.confirm) {
+                    this.startConnect()
+                }
+            },
+        });
+
+    },
+    /**
      * 字符串指定位置插入符号
      */
-    insert_flg: function(str, flg, sn) {   // str 字符串,flg 需要插入的符号,sn 插入位置下标
+    insertFlg: function(str, flg, sn) {   // str 字符串,flg 需要插入的符号,sn 插入位置下标
         var newstr = "";  
         for (var i = 0; i < str.length; i += sn) {    
             var tmp = str.substring(i, i + sn);    
@@ -140,6 +178,54 @@ Page({
             },
         });
     },
+
+    startConnect: function() {
+        wx.showLoading({
+            title: '连接中',
+            mask: true,
+        });
+        this.setData({
+            isLoad: 1
+        })
+        wx.openBluetoothAdapter({
+            success: (result) => {
+                console.log(result)
+                setTimeout(() => {
+                    this.startBluetoothDevicesDiscovery()
+                }, 1000)
+            },
+            fail: (e) => {
+                wx.showModal({
+                    title: '提示',
+                    content: '请开启手机蓝牙和定位服务后重新进入此页面',
+                    showCancel: false,
+                    confirmText: '确定',
+                    confirmColor: '#3CC51F',
+                    success: (result) => {
+
+                        if (result.confirm) { //确定
+                            wx.navigateBack({ //点击确定与取消都会执行
+                                delta: 1
+                            });
+                        }
+                    },
+                });
+            },
+            complete: () => {
+                wx.hideLoading();
+            }
+        });
+    },
+    connectOrClose: function() {
+        if (this.data.connectColor === 'green') {
+            console.log("green")
+            this.startConnect()
+        } else if (this.data.connectColor === 'grey') {
+            console.log('grey')
+            this.onCloseConnect()
+        }
+    },
+
     getConnect: function() {
         var that = this;
         var timer = setInterval(function() {
@@ -172,7 +258,10 @@ Page({
                                                     console.log('连接成功')
                                                     that.setData({
                                                         isConnected: true,
-                                                        temMsg: '测量中'
+                                                        temMsg: '测量中',
+                                                        connectMsg: '断开连接',
+                                                        connectColor: 'grey',
+                                                        isLoad: false
                                                     });
                                                     wx.stopBluetoothDevicesDiscovery(); //停止搜寻附近的蓝牙外围设备
                                                     that.onGetuuid()
@@ -311,15 +400,15 @@ Page({
                 console.log("getServicesRes", getServicesRes);
                 let service = getServicesRes.services[1]
                 let serviceId = service.uuid
-                wx.showLoading({
-                    title: '获取characteristicId',
-                })
+                    // wx.showLoading({
+                    //     title: '获取characteristicId',
+                    // })
                 wx.getBLEDeviceCharacteristics({ //获取蓝牙设备某个服务中所有特征值(characteristic)。
                     deviceId: that.data.deviceId,
                     serviceId: serviceId,
                     success(getCharactersRes) {
                         console.log("getCharactersRes", getCharactersRes);
-                        wx.hideLoading();
+                        // wx.hideLoading();
                         let characteristic = getCharactersRes.characteristics[1]
                         let characteristicId = characteristic.uuid
                         that.setData({
@@ -335,15 +424,19 @@ Page({
                             success() {
                                 console.log('开始监听特征值')
                                 wx.onBLECharacteristicValueChange(function(onNotityChangeRes) { //监听低功耗蓝牙设备的特征值变化事件。
-                                    console.log('监听到特征值更新', onNotityChangeRes);
-                                    let characteristicValue = that.ab2str(onNotityChangeRes.value);
-                                    console.log('最新值', onNotityChangeRes.value)
-                                    console.log('最新值ab2str', that.ab2str(onNotityChangeRes.value))
-                                    console.log('最新值ab2hex', that.ab2hex(onNotityChangeRes.value))
+                                    let characteristicValue = that.hexCharCodeToStr(that.ab2hex(onNotityChangeRes.value))
+                                    console.log('监测到特征值改变', characteristicValue)
+                                    var tem_msg = that.insertFlg(characteristicValue.substr(4, 4))
+                                    that.setData({
+                                        temMsg: tem_msg + '°C'
+                                    })
                                     wx.showModal({
-                                        title: '监听到特征值更新',
-                                        content: `更新后的特征值(16进制格式):${characteristicValue}`,
-                                        showCancel: false
+                                        title: '测量完成',
+                                        content: '体温测量结果为：' + tem_msg + '°C',
+                                        showCancel: false,
+                                        success: res => {
+                                            this.submitTemp(tem_msg)
+                                        }
                                     })
                                 })
                             },
@@ -369,10 +462,22 @@ Page({
             }
         })
     },
+    /**
+     * 提交测量结果到后台
+     */
+    submitTemp(tem) {
+        let _this = this
+        var _data = App.encrypt(JSON.stringify({ 'baby_id': _this.data.baby_id, 'mtime': parseInt(new Date().getTime() / 1000), 'temp': tem }))
+        App._post_form('baby/setBabyTemp', { data: _data }, res => {
+            console.log(res)
+        })
+    },
     onCloseConnect() {
         this.setData({
             isConnected: false,
-            isFinded: false
+            isFinded: false,
+            connectMsg: '链接',
+            connectColor: 'green',
         })
         wx.closeBLEConnection({
             deviceId: this.data.deviceId,
@@ -383,5 +488,52 @@ Page({
                 })
             },
         })
+    },
+    hexCharCodeToStr: function(hexCharCodeStr) {　　
+        var trimedStr = hexCharCodeStr.trim();　　
+        var rawStr = 　　trimedStr.substr(0, 2).toLowerCase() === "0x"　　 ? 　　trimedStr.substr(2)　　 : 　　trimedStr;　　
+        var len = rawStr.length;　　
+        if (len % 2 !== 0) {　　　　
+            console.log("Illegal Format ASCII Code!");　　　　
+            return "";　　
+        }　　
+        var curCharCode;　　
+        var resultStr = [];　　
+        for (var i = 0; i < len; i = i + 2) {　　　　
+            curCharCode = parseInt(rawStr.substr(i, 2), 16); // ASCII Code Value
+            　　　　
+            resultStr.push(String.fromCharCode(curCharCode));　　
+        }　　
+        return resultStr.join("");
+    },
+    /** 
+     * 时间戳转化为年 月 日 时 分 秒 
+     * number: 传入时间戳 
+     * format：返回格式，支持自定义，但参数必须与formateArr里保持一致 ，调用=>  formatTime(timestamp, 'Y-M-D h:m:s')
+     */
+    formatTime: function(number, format) {
+
+        var formateArr = ['Y', 'M', 'D', 'h', 'm', 's'];
+        var returnArr = [];
+
+        var date = new Date(number * 1000);
+        returnArr.push(date.getFullYear());
+        returnArr.push(this.formatNumber(date.getMonth() + 1));
+        returnArr.push(this.formatNumber(date.getDate()));
+
+        returnArr.push(this.formatNumber(date.getHours()));
+        returnArr.push(this.formatNumber(date.getMinutes()));
+        returnArr.push(this.formatNumber(date.getSeconds()));
+
+        for (var i in returnArr) {
+            format = format.replace(formateArr[i], returnArr[i]);
+        }
+        return format;
+    },
+
+    //数据转化  
+    formatNumber: function(n) {
+        n = n.toString()
+        return n[1] ? n : '0' + n
     }
 })
