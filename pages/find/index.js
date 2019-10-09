@@ -9,14 +9,15 @@ Page({
   data: {
     StatusBar: App.globalData.StatusBar,
     CustomBar: App.globalData.CustomBar,
+    siteroot: App.siteInfo.siteroot
   },
 
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    console.log(App.globalData.StatusBar)
-    console.log(App.globalData.CustomBar)
+    console.log(App.siteInfo.siteroot)
+
   },
 
   /**
@@ -30,7 +31,7 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
-
+    this.getArticleList()
   },
 
   /**
@@ -65,6 +66,44 @@ Page({
    * 用户点击右上角分享
    */
   onShareAppMessage: function () {
+
+  },
+  getArticleList: function () {
+    let _this = this
+    App._post_form('Article/getArticlesList', {}, res => {
+      console.log(res)
+      _this.setData({
+        articleList: res.data
+      })
+    })
+    // wx.request({
+    //   url: 'http://192.168.0.27:3000/article',
+    //   data: {
+    //     // 'articleId':1,
+    //     // "test":"测试"
+    //   },
+    //   header: {
+    //     'content-type': 'application/json'
+    //   },
+    //   method: 'POST',
+    //   dataType: 'json',
+    //   responseType: 'text',
+    //   success: (result) => {
+    //     console.log(result)
+    //     this.setData({
+    //       articleList: result.data
+    //     })
+    //   },
+    //   fail: () => {},
+    //   complete: () => {}
+    // });
+
+  },
+  jumpArticleInfo: function (e) {
+    console.log(e)
+    wx.navigateTo({
+      url: 'articleInfo?id=' + e.currentTarget.dataset.id,
+    });
 
   }
 })

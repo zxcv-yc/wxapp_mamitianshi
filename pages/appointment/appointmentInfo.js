@@ -91,7 +91,7 @@ Page({
         appointmentInfo: resultData
       })
       //拉取接种点详情
-      App._post_form_ice("injectposition/positionInfo", {
+      App._post_form_ice("inpoinfo", {
         id: resultData.inject_position_id
       }, res => {
         console.log(res)

@@ -127,4 +127,4 @@
         <view class="_text">暂无即将接种的预约记录~{{idx}}</view>
     </view> 
 </view> -->
-<button open-type="launchApp" app-parameter="wechat" binderror="launchAppError">打开APP</button>
+<!-- <button open-type="launchApp" app-parameter="wechat" binderror="launchAppError">打开APP</button> -->

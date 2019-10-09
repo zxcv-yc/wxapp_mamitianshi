@@ -15,7 +15,8 @@
     "pages/appointment/appointmentInfo",
     "pages/appointment/appointmentSuccess",
     "pages/login/login",
-    "pages/equipment/startMeasuring"
+    "pages/equipment/startMeasuring",
+    "pages/find/articleInfo"
   ],
   "window": {
     "backgroundTextStyle": "light",

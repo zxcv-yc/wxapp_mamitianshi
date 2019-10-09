@@ -231,7 +231,7 @@ Page({
         this.setData({
             showModal: 1
         })
-        App._post_form_ice("injectposition/positionList", {
+        App._post_form_ice("inpolist", {
             town: id
         }, res => {
             console.log(res)

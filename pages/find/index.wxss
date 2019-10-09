@@ -1,15 +1,16 @@
 /* pages/find/index.wxss */
-.green_block{
-    background: linear-gradient( to left, #46dba2, #06ae6e);
+.green_block {
+    background: linear-gradient(to left, #46dba2, #06ae6e);
     height: 160rpx;
 }
-.find_menu{
+
+.find_menu {
     width: 660rpx;
     padding: 40rpx 20rpx;
     position: absolute;
-    
+
     border-radius: 25rpx;
-    left:calc(50% - 330rpx);
+    left: calc(50% - 330rpx);
     overflow: hidden;
 }
 
@@ -24,6 +25,7 @@
     margin: 0 auto;
     width: 50%;
 }
+
 .menu_text {
     padding-top: 15rpx;
     font-size: 24rpx;
@@ -52,16 +54,31 @@
     font-size: 26rpx;
     margin-top: 30rpx;
 }
-.cu-avatar{
+
+.cu-avatar {
     background-color: #f7f7f7;
     float: left;
 }
-.text_float{
+
+.text_float {
     float: left;
     padding-left: 50rpx;
     line-height: 64rpx;
     font-size: 30rpx;
 }
-.zhanwei{
+
+.zhanwei {
     height: 340rpx;
+}
+
+.text_overflow {
+    /* font-size: 38rpx; */
+    /* line-height: 38rpx; */
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    /* word-break: break-all; */
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 3;
+
 }

@@ -29,45 +29,23 @@
   <view class="cuIcon-right text-gray " style="float:right;line-height: 64rpx;font-size:40rpx;"></view>
 </view>
 <view class="zhanwei"></view>
- <view class="cu-bar bg-white">
-        <view class="action">
-            <text class="cuIcon-titles text-green"></text>
-            <text class="text-xl text-bold">专属推荐</text>
-        </view>
-    </view>
-<view class="cu-card article no-card solid-bottom">
-  <view class="cu-item shadow">
-    <view class="title">
-      <view class="text-cut">你不知道的接种小知识！</view>
-    </view>
-    <view class="content">
-      <image src="https://ossweb-img.qq.com/images/lol/web201310/skin/big10006.jpg" mode="aspectFill"></image>
-      <view class="desc">
-        <view class="text-content">
-          近年来，儿童在接种疫苗后出现不良反应的情况，许多家长因为缺乏疫苗接种方面的专业知识...
-        </view>
-        <view>
-          <view class="cu-tag bg-red light sm round">权威</view>
-          <view class="cu-tag bg-green light sm round">超级宝妈</view>
-        </view>
-      </view>
-    </view>
+<view class="cu-bar bg-white">
+  <view class="action">
+    <text class="cuIcon-titles text-green"></text>
+    <text class="text-xl text-bold">专属推荐</text>
   </view>
 </view>
-<view class="cu-card article no-card solid-bottom">
-  <view class="cu-item shadow">
+<view class="cu-card article no-card ">
+  <view class="cu-item shadow solid-bottom " wx:for="{{articleList}}" wx:for-item="item" wx:key bind:tap="jumpArticleInfo" data-id="{{item.id}}">
     <view class="title">
-      <view class="text-cut">孩子挑食怎么办</view>
+      <view class="text-cut">{{item.name}}</view>
     </view>
     <view class="content">
-      <image src="https://ossweb-img.qq.com/images/lol/web201310/skin/big10006.jpg" mode="aspectFill"></image>
+      <image src="{{item.cover_img?siteroot+'upload/picture/'+item.cover_img:'../../images/wenzhang_ZW.png'}}" mode="aspectFill"></image>
       <view class="desc">
-        <view class="text-content">
-          宝宝偏食怎么办？这个问题一直困扰着年轻的父母。那么我们应该怎么做，才能克服宝宝...
-        </view>
+        <view class="text-content text_overflow">{{item.describe}}</view>
         <view>
-          <view class="cu-tag bg-red light sm round">权威</view>
-          <view class="cu-tag bg-green light sm round">超级宝妈</view>
+          <view class="text-df text-grey">{{item.create_time}}</view>
         </view>
       </view>
     </view>

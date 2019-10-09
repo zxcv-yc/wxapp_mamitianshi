@@ -135,7 +135,7 @@ Page({
                 index: idx,
                 inject_position_id: inject_position_id
             })
-            App._post_form_ice("injectposition/positionInfo", { //获取接种点信息
+            App._post_form_ice("inpoinfo", { //获取接种点信息
                 id: inject_position_id
             }, result => {
                 console.log(result)
@@ -231,7 +231,7 @@ Page({
         //   _this.setData({
         //     vacList:resData
         //   })
-        App._post_form_ice("injectposition/positionInfo", {
+        App._post_form_ice("inpoinfo", {
             id: _this.data.inject_position_id
         }, result => {
             console.log(result)

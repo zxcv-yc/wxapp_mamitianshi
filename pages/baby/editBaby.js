@@ -102,7 +102,7 @@ Page({
                 babyInfo: resData,
                 birthDate: resData.baby_birth_date
             })
-            App._post_form_ice('injectposition/positionInfo', {
+            App._post_form_ice('inpoinfo', {
                 id: resData.inject_position_id
             }, result => {
                 _this.setData({
