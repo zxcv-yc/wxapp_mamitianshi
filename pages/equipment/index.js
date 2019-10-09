@@ -83,5 +83,14 @@ Page({
      */
     jumpHistory: function() {
         console.log("历史记录")
+    },
+    /**
+     * 跳转到宝宝成长记录
+     */
+    jumpBabyGrowthRecord: function() {
+        wx.navigateTo({
+            url: '../baby/babyGrowthRecord',
+        });
     }
+
 })

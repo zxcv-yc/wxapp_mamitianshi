@@ -27,6 +27,8 @@ Page({
 
         console.log(this.formatTime(timestamp, 'Y-M-D h:m:s'))
         console.log(dd)
+        var qwerrr = 'DT813740000000'
+        console.log(this.insertFlg(qwerrr.substr(4, 4), '.', 2))
     },
 
     /**
@@ -426,7 +428,7 @@ Page({
                                 wx.onBLECharacteristicValueChange(function(onNotityChangeRes) { //监听低功耗蓝牙设备的特征值变化事件。
                                     let characteristicValue = that.hexCharCodeToStr(that.ab2hex(onNotityChangeRes.value))
                                     console.log('监测到特征值改变', characteristicValue)
-                                    var tem_msg = that.insertFlg(characteristicValue.substr(4, 4))
+                                    var tem_msg = that.insertFlg(characteristicValue.substr(4, 4), '.', 2)
                                     that.setData({
                                         temMsg: tem_msg + '°C'
                                     })
@@ -435,7 +437,7 @@ Page({
                                         content: '体温测量结果为：' + tem_msg + '°C',
                                         showCancel: false,
                                         success: res => {
-                                            this.submitTemp(tem_msg)
+                                            that.submitTemp(tem_msg)
                                         }
                                     })
                                 })
