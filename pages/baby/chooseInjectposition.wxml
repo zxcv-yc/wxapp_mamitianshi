@@ -17,12 +17,12 @@
             </view>
         </picker>
     </view>
-    <view class="cu-form-group solid-bottom">
+    <!-- <view class="cu-form-group solid-bottom">
         <view class="title">街道/乡镇</view>
         <picker mode="selector" bindchange="zhenChange" value="{{zhenIndex}}" range="{{zhenArray}}" range-key="name">
             <view class="picker">{{zhenArray[zhenIndex].name}}</view>
         </picker>
-    </view>
+    </view> -->
 </form>
 <form bindsubmit="submitData">
     <radio-group class="block" bindchange="radioFill">
@@ -57,6 +57,9 @@
             </view>
         </view>
     </radio-group>
+    <view class="" hover-class="none" hover-stop-propagation="false" wx:if="{{list.length<1}}"> 
+        暂时没有该地区下的接种点数据哦～
+    </view>
     <button class="addBtn" form-type="submit">确定</button>
 </form>
 <view class="black_bolck" wx:if="{{showLoad}}"></view>

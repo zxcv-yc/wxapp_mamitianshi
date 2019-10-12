@@ -1,6 +1,6 @@
 /* pages/baby/chooseInjectposition.wxss */
 page{
-    padding-bottom: 160rpx;
+    padding-bottom: 180rpx;
 }
 .item_box {
     width: 90%;

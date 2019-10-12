@@ -182,14 +182,16 @@ Page({
             ssqIndex: e.detail.value
         })
         console.log(_this.data.usQu)
-        App._post_form("region/getCity", {
-            pid: this.data.usQu
-        }, function(res) {
-            _this.setData({
-                zhenArray: res.data,
-                showLoad: false
-            })
-        })
+
+        _this.geteInjectpositionList(_this.data.usQu)
+            // App._post_form("region/getCity", {
+            //     pid: this.data.usQu
+            // }, function(res) {
+            //     _this.setData({
+            //         zhenArray: res.data,
+            //         showLoad: false
+            //     })
+            // })
 
     },
     /**
@@ -232,12 +234,12 @@ Page({
             showModal: 1
         })
         App._post_form_ice("inpolist", {
-            town: id
+            district: id
         }, res => {
             console.log(res)
             _this.setData({
                 list: res.data,
-                showModal: false
+                showLoad: false
             })
         })
 
