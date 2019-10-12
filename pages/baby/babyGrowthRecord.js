@@ -131,14 +131,17 @@ Page({
                     resData[i].dateTimeArr[1] = resData[i].dateTimeArr[1].substring(0, resData[i].dateTimeArr[1].length - 3)
                 }
                 _this.setData({
-                    appoGroList: resData
+                    appoGroList: resData.sort(function(a, b) {
+                        return b['create_time'] < a['create_time'] ? -1 : 1
+                    })
                 })
                 console.log(_this.data.appoGroList)
             } else if (num === 1) {
-                console.log(_this.dateComparisonToNewArr(resData))
+                // _this.dateComparisonToNewArr(resData)
                 _this.setData({
-                    tempGroList: resData
+                    tempGroList: _this.dateComparisonToNewArr(resData)
                 })
+                console.log(_this.data.tempGroList)
             }
         })
     },
@@ -167,49 +170,59 @@ Page({
     /**
      *  遍历数据，将相同日期的元素组成一个数组，并根据时间排序
      */
-    dateComparisonToNewArr: function(data) {
-        console.log("kaishi")
-        console.log(data.length)
-        var arr = []; //存放新数组
-        for (var i = 0; i < data.length; i++) {
-            console.log(i, 'i')
-                //读取每条数据的日期
-            var resCreateDate = this.formatTime(data[i].mtime, 'Y-M-D');
+    dateComparisonToNewArr: function(arr) {
+        var _arr = arr
+        for (var d = 0; d < _arr.length; d++) {
+            _arr[d].create_time = _arr[d].create_time.split(' ')
+            _arr[d].ymd = _arr[d].create_time[0]
+            _arr[d].hm = _arr[d].create_time[1].substring(0, _arr[d].create_time[1].length - 3)
+        }
+        // var newArr = {}
+        // var dest = []
+        // for (var i = 0; i < _arr.length; i++) {
+        //     var ai = _arr[i]
+        //     if (!newArr[ai.ymd]) {
+        //         dest.push({
+        //             ymd: ai.ymd,
 
-            //当日期相同,只要传这个
-            var valDetailList = {
-                "id": data[i].id,
-                "baby_id": data[i].baby_id,
-                "baby_name": data[i].baby_name,
-                "temp": data[i].temp,
-                "time": this.formatTime(data[i].mtime, 'h:m')
-            }
+        //             data: [ai]
+        //         })
+        //         newArr[ai.ymd] = ai
+        //     } else {
+        //         for (var j = 0; j < dest.length; j++) {
+        //             var dj = dest[j]
+        //             if (dj.ymd = ai.ymd) {
+        //                 dj.data.push(ai)
+        //                 break
+        //             }
+        //         }
+        //     }
+        // }
 
-            //当日期没有相同的,就新建一个Item
-            var valItem = {
-                "date": '',
-                "detailList": []
-            }
-            valItem.date = resCreateDate;
-            valItem.detailList.push(valDetailList);
-
-            //第0个不需要比较
-            if (i == 0) {
-                arr.push(valItem);
-            }
-            //第1个就要开始找新数组arr相同的日期
-            else {
-                for (var k = 0; k < arr.length; k++) {
-                    console.log(k, "k")
-                    if (resCreateDate == this.formatTime(arr[k].mtime, 'Y-M-D')) {
-                        arr[k].detailList.push(valDetailList);
-                    } else {
-                        arr.push(valItem);
+        var map = {},
+            dest = [];
+        for (var i = 0; i < _arr.length; i++) {
+            var ai = _arr[i];
+            if (!map[ai.ymd]) {
+                dest.push({
+                    ymd: ai.ymd,
+                    data: [ai]
+                });
+                map[ai.ymd] = ai;
+            } else {
+                for (var j = 0; j < dest.length; j++) {
+                    var dj = dest[j];
+                    if (dj.ymd == ai.ymd) {
+                        dj.data.push(ai);
+                        break;
                     }
                 }
             }
         }
-        return arr
+        dest.sort(function(a, b) {
+            return b['ymd'] < a['ymd'] ? -1 : 1
+        })
+        return dest
     },
     /** 
      * 时间戳转化为年 月 日 时 分 秒 
