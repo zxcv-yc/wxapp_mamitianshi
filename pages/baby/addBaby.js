@@ -126,6 +126,7 @@ Page({
 
 
         console.log(values)
+        
         App._post_form("baby/editBabyInfo", {
             data: App.encrypt(JSON.stringify(values))
         }, res => {

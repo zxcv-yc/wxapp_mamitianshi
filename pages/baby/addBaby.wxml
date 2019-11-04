@@ -19,6 +19,10 @@
         </view>
     </view>
     <view class="cu-form-group margin-top solid-bottom">
+        <view class="title">接种卡号</view>
+        <input placeholder="请输入身份证号" type="idcard" name="card_no" ></input>
+    </view>
+    <view class="cu-form-group margin-top solid-bottom">
         <view class="title">出生日期</view>
         <picker mode="date" value="{{birthDate}}" start="2000-01-01" end="{{today}}" bindchange="birthDateChange"  name="baby_birth_date">
             <view class="picker">{{birthDate}}</view>

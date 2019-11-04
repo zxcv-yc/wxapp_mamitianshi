@@ -1,5 +1,6 @@
 {
     "pages": [
+     
         "pages/index/index",
         "pages/find/index",
         "pages/equipment/index",
@@ -14,6 +15,7 @@
         "pages/appointment/appointmentList",
         "pages/appointment/appointmentInfo",
         "pages/appointment/appointmentSuccess",
+       
         "pages/login/login",
         "pages/equipment/startMeasuring",
         "pages/find/articleInfo",

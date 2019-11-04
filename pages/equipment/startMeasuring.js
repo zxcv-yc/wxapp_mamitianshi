@@ -20,7 +20,7 @@ Page({
     /**
      * 生命周期函数--监听页面加载
      */
-    onLoad: function(options) {
+    onLoad: function (options) {
         this.getBabyList()
         var timestamp = parseInt(new Date().getTime() / 1000);
         var dd = 1570414220
@@ -34,7 +34,7 @@ Page({
     /**
      * 生命周期函数--监听页面初次渲染完成
      */
-    onReady: function() {
+    onReady: function () {
         wx.showToast({
             title: '请先选择要测量体温的宝宝',
             icon: 'none',
@@ -46,48 +46,48 @@ Page({
     /**
      * 生命周期函数--监听页面显示
      */
-    onShow: function() {
+    onShow: function () {
 
     },
 
     /**
      * 生命周期函数--监听页面隐藏
      */
-    onHide: function() {
+    onHide: function () {
 
     },
 
     /**
      * 生命周期函数--监听页面卸载
      */
-    onUnload: function() {
+    onUnload: function () {
 
     },
 
     /**
      * 页面相关事件处理函数--监听用户下拉动作
      */
-    onPullDownRefresh: function() {
+    onPullDownRefresh: function () {
 
     },
 
     /**
      * 页面上拉触底事件的处理函数
      */
-    onReachBottom: function() {
+    onReachBottom: function () {
 
     },
 
     /**
      * 用户点击右上角分享
      */
-    onShareAppMessage: function() {
+    onShareAppMessage: function () {
 
     },
     /**
      * 获取宝宝列表
      */
-    getBabyList: function() {
+    getBabyList: function () {
         let _this = this
         App._post_form("baby/getBabyList", {}, res => {
             console.log(res)
@@ -131,7 +131,7 @@ Page({
      * 
      * 选择baby
      */
-    chooseBaby: function(e) {
+    chooseBaby: function (e) {
         this.setData({
             index: e.detail.value,
             baby_id: this.data.babyList[e.detail.value].id,
@@ -155,24 +155,24 @@ Page({
     /**
      * 字符串指定位置插入符号
      */
-    insertFlg: function(str, flg, sn) {   // str 字符串,flg 需要插入的符号,sn 插入位置下标
-        var newstr = "";  
-        for (var i = 0; i < str.length; i += sn) {    
-            var tmp = str.substring(i, i + sn);    
-            newstr += tmp + flg;  
-        }  
+    insertFlg: function (str, flg, sn) { // str 字符串,flg 需要插入的符号,sn 插入位置下标
+        var newstr = "";
+        for (var i = 0; i < str.length; i += sn) {
+            var tmp = str.substring(i, i + sn);
+            newstr += tmp + flg;
+        }
         return newstr.substring(0, newstr.length - 1); //最后一位会多出一个插入的符号，删除后return
     },
     /*
      * 二进制数组转字符串
      */
-    ab2str: function(buf) {
+    ab2str: function (buf) {
         return String.fromCharCode.apply(null, new Uint16Array(buf));
     },
-    startBluetoothDevicesDiscovery: function() {
+    startBluetoothDevicesDiscovery: function () {
         var that = this;
         wx.startBluetoothDevicesDiscovery({ //开始搜寻附近的蓝牙外围设备
-            success: function(res) {
+            success: function (res) {
                 console.log("discovery", res);
                 if (res.errCode == 0) {
                     that.getConnect();
@@ -181,7 +181,7 @@ Page({
         });
     },
 
-    startConnect: function() {
+    startConnect: function () {
         wx.showLoading({
             title: '连接中',
             mask: true,
@@ -204,7 +204,6 @@ Page({
                     confirmText: '确定',
                     confirmColor: '#3CC51F',
                     success: (result) => {
-
                         if (result.confirm) { //确定
                             wx.navigateBack({ //点击确定与取消都会执行
                                 delta: 1
@@ -218,7 +217,7 @@ Page({
             }
         });
     },
-    connectOrClose: function() {
+    connectOrClose: function () {
         if (this.data.connectColor === 'green') {
             console.log("green")
             this.startConnect()
@@ -228,11 +227,14 @@ Page({
         }
     },
 
-    getConnect: function() {
+    getConnect: function () {
+        wx.showLoading({
+            title: '连接中',
+        })
         var that = this;
-        var timer = setInterval(function() {
+        var timer = setInterval(function () {
                 wx.getBluetoothDevices({ //获取在蓝牙模块生效期间所有已发现的蓝牙设备。包括已经和本机处于连接状态的设备。
-                    success: function(res) {
+                    success: function (res) {
                         console.log("devices", res);
                         for (var i = 0; i < res.devices.length; i++) {
                             if (res.devices[i].name == that.data.deviceName) {
@@ -242,9 +244,6 @@ Page({
                                     duration: 1500,
                                     mask: false,
                                     success: (result) => {
-                                        wx.showLoading({
-                                            title: '连接中',
-                                        })
                                         clearInterval(timer);
                                         that.setData({
                                             deviceId: res.devices[i].deviceId
@@ -254,7 +253,7 @@ Page({
                                         wx.createBLEConnection({ //连接低功耗蓝牙设备。
                                             deviceId: that.data.deviceId,
                                             timeout: 10000, //超时时间
-                                            success: function(res) {
+                                            success: function (res) {
                                                 console.log(res);
                                                 if (res.errCode == 0) {
                                                     console.log('连接成功')
@@ -303,7 +302,7 @@ Page({
                 });
             },
             3000);
-        setTimeout(function() {
+        setTimeout(function () {
             if (!that.data.isFinded && !that.data.isConnected) {
                 clearInterval(timer);
                 that.setData({
@@ -327,12 +326,12 @@ Page({
                 serviceId,
                 characteristicId,
                 value: _this.str2ab(subCommand),
-                success: function(res) {
-                    setTimeout(function() {
+                success: function (res) {
+                    setTimeout(function () {
                         send(i + 1)
                     }, 20)
                 },
-                fail: function(res) {
+                fail: function (res) {
                     fail("fail", res)
                 }
             })
@@ -347,7 +346,7 @@ Page({
         return buf
     },
     ab2hex(buffer) {
-        var hexArr = Array.prototype.map.call(new Uint8Array(buffer), function(bit) {
+        var hexArr = Array.prototype.map.call(new Uint8Array(buffer), function (bit) {
             return ('00' + bit.toString(16)).slice(-2)
         })
         return hexArr.join('');
@@ -365,7 +364,7 @@ Page({
                 serviceId: that.data.serviceId,
                 characteristicId: that.data.characteristicId,
                 value: that.str2ab(that.data.command),
-                success: function(res) {
+                success: function (res) {
                     // setTimeout(function () {
                     //   send(i + 1)
                     // }, 20)
@@ -375,7 +374,7 @@ Page({
                         icon: 'none'
                     })
                 },
-                fail: function(res) {
+                fail: function (res) {
                     console.warn("发送指令失败", res)
                 }
             })
@@ -402,9 +401,9 @@ Page({
                 console.log("getServicesRes", getServicesRes);
                 let service = getServicesRes.services[1]
                 let serviceId = service.uuid
-                    // wx.showLoading({
-                    //     title: '获取characteristicId',
-                    // })
+                // wx.showLoading({
+                //     title: '获取characteristicId',
+                // })
                 wx.getBLEDeviceCharacteristics({ //获取蓝牙设备某个服务中所有特征值(characteristic)。
                     deviceId: that.data.deviceId,
                     serviceId: serviceId,
@@ -425,7 +424,7 @@ Page({
                             characteristicId: getCharactersRes.characteristics[1].uuid,
                             success() {
                                 console.log('开始监听特征值')
-                                wx.onBLECharacteristicValueChange(function(onNotityChangeRes) { //监听低功耗蓝牙设备的特征值变化事件。
+                                wx.onBLECharacteristicValueChange(function (onNotityChangeRes) { //监听低功耗蓝牙设备的特征值变化事件。
                                     let characteristicValue = that.hexCharCodeToStr(that.ab2hex(onNotityChangeRes.value))
                                     console.log('监测到特征值改变', characteristicValue)
                                     var tem_msg = that.insertFlg(characteristicValue.substr(4, 4), '.', 2)
@@ -469,8 +468,14 @@ Page({
      */
     submitTemp(tem) {
         let _this = this
-        var _data = App.encrypt(JSON.stringify({ 'baby_id': _this.data.baby_id, 'mtime': parseInt(new Date().getTime() / 1000), 'temp': tem }))
-        App._post_form('baby/setBabyTemp', { data: _data }, res => {
+        var _data = App.encrypt(JSON.stringify({
+            'baby_id': _this.data.baby_id,
+            'mtime': parseInt(new Date().getTime() / 1000),
+            'temp': tem
+        }))
+        App._post_form('baby/setBabyTemp', {
+            data: _data
+        }, res => {
             console.log(res)
         })
     },
@@ -480,10 +485,11 @@ Page({
             isFinded: false,
             connectMsg: '链接',
             connectColor: 'green',
+            temMsg: '未连接',
         })
         wx.closeBLEConnection({
             deviceId: this.data.deviceId,
-            success: function(res) {
+            success: function (res) {
                 console.log("成功断开连接");
                 wx.showToast({
                     title: '成功断开连接',
@@ -491,21 +497,21 @@ Page({
             },
         })
     },
-    hexCharCodeToStr: function(hexCharCodeStr) {　　
-        var trimedStr = hexCharCodeStr.trim();　　
-        var rawStr = 　　trimedStr.substr(0, 2).toLowerCase() === "0x"　　 ? 　　trimedStr.substr(2)　　 : 　　trimedStr;　　
-        var len = rawStr.length;　　
-        if (len % 2 !== 0) {　　　　
-            console.log("Illegal Format ASCII Code!");　　　　
-            return "";　　
-        }　　
-        var curCharCode;　　
-        var resultStr = [];　　
-        for (var i = 0; i < len; i = i + 2) {　　　　
+    hexCharCodeToStr: function (hexCharCodeStr) {
+        var trimedStr = hexCharCodeStr.trim();
+        var rawStr = trimedStr.substr(0, 2).toLowerCase() === "0x" ? trimedStr.substr(2) : trimedStr;
+        var len = rawStr.length;
+        if (len % 2 !== 0) {
+            console.log("Illegal Format ASCII Code!");
+            return "";
+        }
+        var curCharCode;
+        var resultStr = [];
+        for (var i = 0; i < len; i = i + 2) {
             curCharCode = parseInt(rawStr.substr(i, 2), 16); // ASCII Code Value
-            　　　　
-            resultStr.push(String.fromCharCode(curCharCode));　　
-        }　　
+
+            resultStr.push(String.fromCharCode(curCharCode));
+        }
         return resultStr.join("");
     },
     /** 
@@ -513,7 +519,7 @@ Page({
      * number: 传入时间戳 
      * format：返回格式，支持自定义，但参数必须与formateArr里保持一致 ，调用=>  formatTime(timestamp, 'Y-M-D h:m:s')
      */
-    formatTime: function(number, format) {
+    formatTime: function (number, format) {
 
         var formateArr = ['Y', 'M', 'D', 'h', 'm', 's'];
         var returnArr = [];
@@ -534,7 +540,7 @@ Page({
     },
 
     //数据转化  
-    formatNumber: function(n) {
+    formatNumber: function (n) {
         n = n.toString()
         return n[1] ? n : '0' + n
     }
